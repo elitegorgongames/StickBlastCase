@@ -9,6 +9,9 @@ public class ConnectionStick : MonoBehaviour
     public Color initialColor;
     public SpriteRenderer spriteRenderer;
 
+    public GameObject highlightObject;
+    public GameObject defaultStickObject;
+
     Transform _transform;
 
     private void Awake()
@@ -27,10 +30,14 @@ public class ConnectionStick : MonoBehaviour
     public void SetHighlightColor()
     {
         spriteRenderer.color = hightlightColor;
+        highlightObject.SetActive(true);
+        defaultStickObject.SetActive(false);
     }
 
     public void SetInitialColor()
     {
         spriteRenderer.color = initialColor;
+        highlightObject.SetActive(false);
+        defaultStickObject.SetActive(true);
     }
 }

@@ -50,7 +50,7 @@ public class GridManager : MonoBehaviour
         for (int i = 0; i < circleNodeList.Count; i++)
         { 
             var circleNodePos = circleNodeList[i].GetTransform().position;
-            circleNodePos.z = 0;
+            circleNodePos.z = -0.1f;
 
             if (circleNodeList[i].coordinate.x == _rowCount - 1 && circleNodeList[i].coordinate.y == _columnCount - 1)
             {

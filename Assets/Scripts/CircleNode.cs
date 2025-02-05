@@ -12,6 +12,7 @@ public class CircleNode : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Color initialColor;
     public Color hightligthColor;
+    public bool isHighlited;
 
     public float offsetZ;
 
