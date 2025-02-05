@@ -93,6 +93,8 @@ public class GridManager : MonoBehaviour
         connectionSticksToPlaceList.Clear();
         highlitghedCicrleNodesList.Clear();
 
+        var currentPickedStick = InputController.Instance.GetCurrentSelectedStick();
+
         for (int i = 0; i < circleNodeList.Count; i++)
         {
             if (Vector3.Distance(circleNodeList[i].GetTransform().position,stick.GetCalculationTransformStartPoint().position)<closestDistance)
@@ -119,12 +121,17 @@ public class GridManager : MonoBehaviour
             return;
         }
 
+        if (!IsStickFitIntoTheCircleNode(currentPickedStick, currentClosestCircleNodeToSelectedStick))
+        {
+            return;
+        }
+
         if (currentClosestCircleNodeToSelectedStick!=null)
         {
             if (stick.stickType == StickType.Vertical)
             {
                 if (currentClosestCircleNodeToSelectedStick.upConnectionStick!=null)
-                {
+                {         
                     currentClosestCircleNodeToSelectedStick.SetHighlightColor();
                     var upNeighborCircleNode = FindUpNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
                     upNeighborCircleNode.SetHighlightColor();
@@ -216,6 +223,59 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    private bool IsStickFitIntoTheCircleNode(Stick stick, CircleNode closestCircleNode)
+    {
+        var stickType = stick.stickType;
+
+        if (stickType == StickType.Vertical)
+        {
+            if (closestCircleNode.upConnectionStick==null)
+            {
+                return false;
+            }
+            if (closestCircleNode.upConnectionStick.isOccupied)
+            {
+                return false;
+            }
+        }
+        if (stickType == StickType.Horizontal)
+        {
+            if (closestCircleNode.rightConnectionStick == null)
+            {
+                return false;
+            }
+            if (closestCircleNode.rightConnectionStick.isOccupied)
+            {
+                return false;
+            }
+        }
+        if (stickType == StickType.LType)
+        {
+            if (closestCircleNode.rightConnectionStick == null || closestCircleNode.upConnectionStick == null)
+            {
+                return false;
+            }
+            if (closestCircleNode.rightConnectionStick.isOccupied || closestCircleNode.upConnectionStick.isOccupied)
+            {
+                return false;
+            }
+        }
+        if (stickType == StickType.UType)
+        {
+            var rightNeighborOfClosestCircleNode = FindRightNeighborOfCircleNode(closestCircleNode);
+            if (closestCircleNode.rightConnectionStick == null || closestCircleNode.upConnectionStick == null)
+            {
+                return false;
+            }
+            if (closestCircleNode.rightConnectionStick.isOccupied || closestCircleNode.upConnectionStick.isOccupied || rightNeighborOfClosestCircleNode.upConnectionStick.isOccupied)
+            {
+                return false;
+            }
+        }
+
+        return true;   
+    }
+
     private void CloseHighlightOfAllConnectionSticksAndCircleNodes()
     {
         foreach (var cNode in circleNodeList)
@@ -239,13 +299,22 @@ public class GridManager : MonoBehaviour
 
 
     public void SetConnectionSticksOccupied(out CircleNode referenceCircleNode, out List<CircleNode> highlightedCircleNodeList)
-    {
+    { 
         var currentSelectedStick = InputController.Instance.GetCurrentSelectedStick();
         referenceCircleNode = null;
         highlightedCircleNodeList = new List<CircleNode>();
 
+        if (currentClosestCircleNodeToSelectedStick == null)
+        {
+            return;
+        }
+
         if (currentSelectedStick.stickType == StickType.Vertical)
         {
+            if (currentClosestCircleNodeToSelectedStick.upConnectionStick == null)
+            {
+                return;
+            }
             if (currentClosestCircleNodeToSelectedStick.upConnectionStick.isOccupied)
             {                
                 return;
@@ -253,6 +322,10 @@ public class GridManager : MonoBehaviour
         }
         if (currentSelectedStick.stickType == StickType.Horizontal)
         {
+            if (currentClosestCircleNodeToSelectedStick.rightConnectionStick==null)
+            {
+                return;
+            }
             if (currentClosestCircleNodeToSelectedStick.rightConnectionStick.isOccupied)
             {
                 return;
@@ -260,6 +333,10 @@ public class GridManager : MonoBehaviour
         }
         if (currentSelectedStick.stickType == StickType.LType)
         {
+            if (currentClosestCircleNodeToSelectedStick.upConnectionStick==null || currentClosestCircleNodeToSelectedStick.rightConnectionStick==null)
+            {
+                return;
+            }
             if (currentClosestCircleNodeToSelectedStick.rightConnectionStick.isOccupied || currentClosestCircleNodeToSelectedStick.upConnectionStick.isOccupied)
             {
                 return;
@@ -267,6 +344,10 @@ public class GridManager : MonoBehaviour
         }
         if (currentSelectedStick.stickType == StickType.UType)
         {
+            if (currentClosestCircleNodeToSelectedStick.upConnectionStick == null || currentClosestCircleNodeToSelectedStick.rightConnectionStick == null)
+            {
+                return;
+            }
             var rightNeighborCircleNode = FindRightNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
             if (currentClosestCircleNodeToSelectedStick.rightConnectionStick.isOccupied || 
                 currentClosestCircleNodeToSelectedStick.upConnectionStick.isOccupied ||
@@ -275,10 +356,6 @@ public class GridManager : MonoBehaviour
                 return;
             }
         }
-
-
-
-
 
 
         if (connectionSticksToPlaceList.Count==0)
@@ -357,20 +434,25 @@ public class GridManager : MonoBehaviour
     }
 
     public void CheckIfAnyCircleNodeIsCompleted()
-    {
-        bool circleNodesAreOccupied = false;
-        bool sticksAreOccupied = false;
+    {      
         for (int i = 0; i < circleNodeList.Count; i++)
         {
+            bool circleNodesAreOccupied = false;
+            bool sticksAreOccupied = false;
+            var circleOrder = i;
             if (circleNodeList[i].isOccupied)
             {
                 var rightNeighborCircleNode = FindRightNeighborOfCircleNode(circleNodeList[i]);
                 var upNeighborCircleNode = FindUpNeighborOfCircleNode(circleNodeList[i]);
-                var rightUpNeighborCircleNode = FindRightNeighborOfCircleNode(circleNodeList[i]);
-                
+                var rightUpNeighborCircleNode = FindRightUpCircleNode(circleNodeList[i]);
+            
 
-                if (rightNeighborCircleNode.isOccupied && upNeighborCircleNode.isOccupied && rightUpNeighborCircleNode.isOccupied)
+                if (rightNeighborCircleNode==null || upNeighborCircleNode==null || rightUpNeighborCircleNode==null)
                 {
+                    continue;
+                }
+                if (rightNeighborCircleNode.isOccupied && upNeighborCircleNode.isOccupied && rightUpNeighborCircleNode.isOccupied)
+                {                    
                     circleNodesAreOccupied = true;                 
                 }
 
@@ -381,15 +463,15 @@ public class GridManager : MonoBehaviour
 
                 if (rightConnectionStick.isOccupied && upConnectionStick.isOccupied && rightRightConnectionStick.isOccupied && upUpConnectionStick.isOccupied)
                 {
-                    sticksAreOccupied = true;
+                    sticksAreOccupied = true;             
                 }
             }
-        }
 
-        if (circleNodesAreOccupied && sticksAreOccupied)
-        {
-            Debug.Log("this circle node is completed ");
-        }
+            if (circleNodesAreOccupied && sticksAreOccupied)
+            {
+                Debug.Log("this circle node is completed " + circleOrder);
+            }
+        }  
     }
 
     public void CheckIfAnyLineIsCompleted()
