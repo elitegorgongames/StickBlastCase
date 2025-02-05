@@ -181,7 +181,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8.99
+  orthographic size: 8.45
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -410,11 +410,11 @@ MonoBehaviour:
   _connectionStick: {fileID: 6798155422149688065, guid: f4e5cfad2a810da47a95e4953d041a77, type: 3}
   _rowCount: 6
   _columnCount: 6
-  _spacing: 1.6
+  _spacing: 1.3
   circleNodeList: []
   currentClosestCircleNodeToSelectedStick: {fileID: 0}
   connectionSticksToPlaceList: []
-  minDistanceToPlaceGrid: 1
+  minDistanceToPlaceGrid: 0.9
   enableToPlace: 0
 --- !u!4 &608544878
 Transform:
@@ -688,8 +688,8 @@ Transform:
   m_GameObject: {fileID: 1210569576}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 4, z: 0}
-  m_LocalScale: {x: 3.3547, y: 3.3547, z: 3.3547}
+  m_LocalPosition: {x: 3.25, y: 3.25, z: 0}
+  m_LocalScale: {x: 2.8802783, y: 2.8802783, z: 2.8802783}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -785,7 +785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stickFirstHoldOffsetMovementTime: 0
-  stickPlacementTime: 0.5
+  stickPlacementTime: 0.15
   stickPlacementAC:
     serializedVersion: 2
     m_Curve:

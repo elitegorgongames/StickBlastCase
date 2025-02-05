@@ -13,6 +13,7 @@ public class CircleNode : MonoBehaviour
     public Color initialColor;
     public Color hightligthColor;
     public bool isHighlited;
+    public bool isOccupied;
 
     public float offsetZ;
 

@@ -7,7 +7,8 @@ public class Stick : MonoBehaviour
 
     public bool isPicked;
     public bool isPlaced;
-    public StickType stickType; 
+    public StickType stickType;
+    public Vector3 startPoint;
  
     public Transform calculationTransformStartPoint;
     private Transform _transform;
@@ -21,7 +22,7 @@ public class Stick : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-           
+        SetStartPoint();
     }
 
 
@@ -34,11 +35,25 @@ public class Stick : MonoBehaviour
         var moveTime = PolishSettings.Instance.stickPlacementTime;
         var moveAC = PolishSettings.Instance.stickPlacementAC;
 
-        _transform.DOMove(targetPos, moveTime).SetEase(moveAC);
+        isPlaced = true;
 
-        Debug.Log("stick movement"+ offset+" offset"+ targetPos);
+        _transform.DOMove(targetPos, moveTime).SetEase(moveAC).OnComplete(()=> 
+        {
+            GridManager.Instance.CheckIfAnyCircleNodeIsCompleted();
+        });
     }
 
+    public void BackToStartPoint()
+    {
+        var moveTime = PolishSettings.Instance.stickPlacementTime;
+        var moveAC = PolishSettings.Instance.stickPlacementAC;
+        _transform.DOMove(startPoint, moveTime).SetEase(moveAC);
+    }
+
+    public void SetStartPoint()
+    {
+        startPoint = _transform.position;
+    }
 
     public Transform GetCalculationTransformStartPoint()
     {

@@ -14,6 +14,7 @@ public class GridManager : MonoBehaviour
     public List<CircleNode> circleNodeList;
     public CircleNode currentClosestCircleNodeToSelectedStick;
     public List<ConnectionStick> connectionSticksToPlaceList;
+    public List<CircleNode> highlitghedCicrleNodesList;
     public float minDistanceToPlaceGrid;
     public bool enableToPlace;
 
@@ -84,17 +85,13 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    void AssignConnectionSticksToCircleNodes()
-    {
-
-    }
-
     public void FindClosestCircleNodeToSelectedStick(Stick stick)
     {
         enableToPlace = false;
         var closestDistance = minDistanceToPlaceGrid;
         currentClosestCircleNodeToSelectedStick = null;
         connectionSticksToPlaceList.Clear();
+        highlitghedCicrleNodesList.Clear();
 
         for (int i = 0; i < circleNodeList.Count; i++)
         {
@@ -129,11 +126,17 @@ public class GridManager : MonoBehaviour
                 if (currentClosestCircleNodeToSelectedStick.upConnectionStick!=null)
                 {
                     currentClosestCircleNodeToSelectedStick.SetHighlightColor();
+                    var upNeighborCircleNode = FindUpNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+                    upNeighborCircleNode.SetHighlightColor();
+
+                    highlitghedCicrleNodesList.Add(currentClosestCircleNodeToSelectedStick);
+                    highlitghedCicrleNodesList.Add(upNeighborCircleNode);
+
                     currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
 
                     connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.upConnectionStick);
 
-                    enableToPlace = true;
+                    enableToPlace = true;              
                 }                
             }
             if (stick.stickType == StickType.Horizontal)
@@ -141,6 +144,12 @@ public class GridManager : MonoBehaviour
                 if (currentClosestCircleNodeToSelectedStick.rightConnectionStick != null)
                 {
                     currentClosestCircleNodeToSelectedStick.SetHighlightColor();
+                    var rightNeighborCircleNode = FindRightNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+                    rightNeighborCircleNode.SetHighlightColor();
+
+                    highlitghedCicrleNodesList.Add(currentClosestCircleNodeToSelectedStick);
+                    highlitghedCicrleNodesList.Add(rightNeighborCircleNode);
+
                     currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
 
                     connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.rightConnectionStick);
@@ -153,6 +162,14 @@ public class GridManager : MonoBehaviour
                 if (currentClosestCircleNodeToSelectedStick.rightConnectionStick != null && currentClosestCircleNodeToSelectedStick.upConnectionStick != null)
                 {
                     currentClosestCircleNodeToSelectedStick.SetHighlightColor();
+                    var upNeighborCircleNode = FindUpNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+                    upNeighborCircleNode.SetHighlightColor();
+                    var rightNeighborCircleNode = FindRightNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+                    rightNeighborCircleNode.SetHighlightColor();
+
+                    highlitghedCicrleNodesList.Add(currentClosestCircleNodeToSelectedStick);
+                    highlitghedCicrleNodesList.Add(upNeighborCircleNode);
+                    highlitghedCicrleNodesList.Add(rightNeighborCircleNode);
 
                     currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
                     currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
@@ -167,18 +184,28 @@ public class GridManager : MonoBehaviour
             {
                 if (currentClosestCircleNodeToSelectedStick.rightConnectionStick != null && currentClosestCircleNodeToSelectedStick.upConnectionStick != null)
                 {
-                    var rightNeighbor = GetRightNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
-                    if (rightNeighbor!=null)
+                    var rightNeighborCircleNode = FindRightNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+                    var upNeighborCircleNode = FindUpNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+                    var rightUpNeighborCircleNode = FindRightUpCircleNode(currentClosestCircleNodeToSelectedStick);
+
+                    if (rightNeighborCircleNode != null && upNeighborCircleNode!=null)
                     {
                         currentClosestCircleNodeToSelectedStick.SetHighlightColor();
-                        rightNeighbor.SetHighlightColor();
+                        rightNeighborCircleNode.SetHighlightColor();
+                        upNeighborCircleNode.SetHighlightColor();
+                        rightUpNeighborCircleNode.SetHighlightColor();
+
+                        highlitghedCicrleNodesList.Add(currentClosestCircleNodeToSelectedStick);
+                        highlitghedCicrleNodesList.Add(upNeighborCircleNode);
+                        highlitghedCicrleNodesList.Add(rightNeighborCircleNode);
+                        highlitghedCicrleNodesList.Add(rightUpNeighborCircleNode);
 
 
-                        rightNeighbor.upConnectionStick.SetHighlightColor();
+                        rightNeighborCircleNode.upConnectionStick.SetHighlightColor();
                         currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
                         currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
 
-                        connectionSticksToPlaceList.Add(rightNeighbor.upConnectionStick);
+                        connectionSticksToPlaceList.Add(rightNeighborCircleNode.upConnectionStick);
                         connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.rightConnectionStick);
                         connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.upConnectionStick);
 
@@ -193,6 +220,11 @@ public class GridManager : MonoBehaviour
     {
         foreach (var cNode in circleNodeList)
         {
+            if (cNode.isOccupied)
+            {
+                continue;
+            }
+
             cNode.SetInitialColor();
             if (cNode.rightConnectionStick!=null)
             {
@@ -206,8 +238,49 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public void SetConnectionSticksOccupied(out CircleNode referenceCircleNode)
+    public void SetConnectionSticksOccupied(out CircleNode referenceCircleNode, out List<CircleNode> highlightedCircleNodeList)
     {
+        var currentSelectedStick = InputController.Instance.GetCurrentSelectedStick();
+        referenceCircleNode = null;
+        highlightedCircleNodeList = new List<CircleNode>();
+
+        if (currentSelectedStick.stickType == StickType.Vertical)
+        {
+            if (currentClosestCircleNodeToSelectedStick.upConnectionStick.isOccupied)
+            {                
+                return;
+            }
+        }
+        if (currentSelectedStick.stickType == StickType.Horizontal)
+        {
+            if (currentClosestCircleNodeToSelectedStick.rightConnectionStick.isOccupied)
+            {
+                return;
+            }
+        }
+        if (currentSelectedStick.stickType == StickType.LType)
+        {
+            if (currentClosestCircleNodeToSelectedStick.rightConnectionStick.isOccupied || currentClosestCircleNodeToSelectedStick.upConnectionStick.isOccupied)
+            {
+                return;
+            }
+        }
+        if (currentSelectedStick.stickType == StickType.UType)
+        {
+            var rightNeighborCircleNode = FindRightNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+            if (currentClosestCircleNodeToSelectedStick.rightConnectionStick.isOccupied || 
+                currentClosestCircleNodeToSelectedStick.upConnectionStick.isOccupied ||
+                rightNeighborCircleNode.upConnectionStick.isOccupied)
+            {
+                return;
+            }
+        }
+
+
+
+
+
+
         if (connectionSticksToPlaceList.Count==0)
         {
             referenceCircleNode = null;
@@ -218,11 +291,15 @@ public class GridManager : MonoBehaviour
         {
             connectionSticksToPlaceList[i].isOccupied = true;
         }
+        for (int i = 0; i < highlitghedCicrleNodesList.Count; i++)
+        {
+            highlightedCircleNodeList.Add(highlitghedCicrleNodesList[i]);
+        }
 
         referenceCircleNode = currentClosestCircleNodeToSelectedStick;
     }
 
-    private CircleNode GetRightNeighborOfCircleNode(CircleNode circleNode)
+    private CircleNode FindRightNeighborOfCircleNode(CircleNode circleNode)
     {
         var rightNeighborCircleCoordinates = new Vector2Int(circleNode.coordinate.x, circleNode.coordinate.y+1);
         CircleNode rightNeighbor = null;
@@ -239,6 +316,85 @@ public class GridManager : MonoBehaviour
         }
 
         return rightNeighbor;
+    }
+
+    private CircleNode FindUpNeighborOfCircleNode(CircleNode circleNode)
+    {
+        var upNeighborCircleNodeCoordinates = new Vector2Int(circleNode.coordinate.x+1, circleNode.coordinate.y);
+        CircleNode upNeighbor = null;
+        if (upNeighborCircleNodeCoordinates.y < _columnCount)
+        {
+            foreach (var cNode in circleNodeList)
+            {
+                if (cNode.coordinate.x == upNeighborCircleNodeCoordinates.x && cNode.coordinate.y == upNeighborCircleNodeCoordinates.y)
+                {
+                    upNeighbor = cNode;
+                    break;
+                }
+            }
+        }
+
+        return upNeighbor;
+    }
+
+    private CircleNode FindRightUpCircleNode(CircleNode circleNode)
+    {
+        var rightUpNeighborCircleNodeCoordinates = new Vector2Int(circleNode.coordinate.x + 1, circleNode.coordinate.y+1);
+        CircleNode rightUpNeighbor = null;
+        if (rightUpNeighborCircleNodeCoordinates.y < _columnCount && rightUpNeighborCircleNodeCoordinates.x<_rowCount)
+        {
+            foreach (var cNode in circleNodeList)
+            {
+                if (cNode.coordinate.x == rightUpNeighborCircleNodeCoordinates.x && cNode.coordinate.y == rightUpNeighborCircleNodeCoordinates.y)
+                {
+                    rightUpNeighbor = cNode;
+                    break;
+                }
+            }
+        }
+
+        return rightUpNeighbor;
+    }
+
+    public void CheckIfAnyCircleNodeIsCompleted()
+    {
+        bool circleNodesAreOccupied = false;
+        bool sticksAreOccupied = false;
+        for (int i = 0; i < circleNodeList.Count; i++)
+        {
+            if (circleNodeList[i].isOccupied)
+            {
+                var rightNeighborCircleNode = FindRightNeighborOfCircleNode(circleNodeList[i]);
+                var upNeighborCircleNode = FindUpNeighborOfCircleNode(circleNodeList[i]);
+                var rightUpNeighborCircleNode = FindRightNeighborOfCircleNode(circleNodeList[i]);
+                
+
+                if (rightNeighborCircleNode.isOccupied && upNeighborCircleNode.isOccupied && rightUpNeighborCircleNode.isOccupied)
+                {
+                    circleNodesAreOccupied = true;                 
+                }
+
+                var rightConnectionStick = circleNodeList[i].rightConnectionStick;
+                var upConnectionStick = circleNodeList[i].upConnectionStick;
+                var rightRightConnectionStick = rightNeighborCircleNode.upConnectionStick;
+                var upUpConnectionStick = upNeighborCircleNode.rightConnectionStick;
+
+                if (rightConnectionStick.isOccupied && upConnectionStick.isOccupied && rightRightConnectionStick.isOccupied && upUpConnectionStick.isOccupied)
+                {
+                    sticksAreOccupied = true;
+                }
+            }
+        }
+
+        if (circleNodesAreOccupied && sticksAreOccupied)
+        {
+            Debug.Log("this circle node is completed ");
+        }
+    }
+
+    public void CheckIfAnyLineIsCompleted()
+    {
+
     }
 
     void CenterCamera()

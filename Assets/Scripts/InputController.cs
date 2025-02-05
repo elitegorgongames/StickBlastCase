@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InputController : MonoBehaviour
@@ -31,6 +32,11 @@ public class InputController : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent(out Stick stick))
                 {
+                    if (stick.isPlaced)
+                    {
+                        return;
+                    }
+
                     if (!stick.isPicked)
                     {
                         stick.isPicked = true;
@@ -51,15 +57,24 @@ public class InputController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && _currentSelectedStick != null) // Mouse býrakýldýðýnda -> Çubuðu serbest býrak
         {
-            GridManager.Instance.SetConnectionSticksOccupied(out CircleNode referenceCircleNode);
+            GridManager.Instance.SetConnectionSticksOccupied(out CircleNode referenceCircleNode, out List<CircleNode> highlightedCircleNodeList);
             if (referenceCircleNode!=null)
             {
                 _currentSelectedStick.PlaceToGrid(referenceCircleNode.GetTransform().position);
+                foreach (var cNode in highlightedCircleNodeList)
+                {
+                    cNode.isOccupied = true;
+                }
             }
+            else
+            {
+                _currentSelectedStick.BackToStartPoint();
+            }
+
             _currentSelectedStick.isPicked = false;
             _currentSelectedStick = null;
             _isDragging = false;
-            GridManager.Instance.enableToPlace = false;
+            GridManager.Instance.enableToPlace = false;      
         }
     }
 
@@ -77,4 +92,9 @@ public class InputController : MonoBehaviour
         Vector3 newPosition = _initialStickPosition + new Vector3(worldDelta.x, worldDelta.y + _movementOffset, 0);
         _currentSelectedStick.transform.position = newPosition;
     }   
+
+    public Stick GetCurrentSelectedStick()
+    {
+        return _currentSelectedStick;
+    }
 }
