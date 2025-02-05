@@ -18,12 +18,26 @@ public class CircleNode : MonoBehaviour
     public float offsetZ;
     public int circleNodeOrder;
 
+    public GameObject completedCircleNodeObjectPrefab;
+    public GameObject completedCircleNodeObject;
+    public Transform completedCircleNodeObjectPrefabSpawnTransform;
+    public Material dissolveMaterial;
+    public bool isCompleted;
+
     Transform _transform;
 
     private void Awake()
     {
         _transform = transform;
         initialColor = spriteRenderer.color;
+    }
+
+    public void SpawnCompletedObject()
+    {
+        var completedObject = Instantiate(completedCircleNodeObjectPrefab, _transform);
+        completedObject.transform.position = completedCircleNodeObjectPrefabSpawnTransform.position;
+        completedObject.transform.localScale = Vector3.one * 2;
+        completedCircleNodeObject = completedObject;
     }
 
     public Transform GetTransform()
