@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -28,7 +29,7 @@ public class GridManager : MonoBehaviour
     {
         GenerateGrid();
         GenerateBars();
-        CenterCamera();
+        CenterCamera();      
     }
 
     void GenerateGrid()
@@ -434,7 +435,9 @@ public class GridManager : MonoBehaviour
     }
 
     public void CheckIfAnyCircleNodeIsCompleted()
-    {      
+    {
+        var completedCircleNodeOrdersList = new List<int>();
+
         for (int i = 0; i < circleNodeList.Count; i++)
         {
             bool circleNodesAreOccupied = false;
@@ -470,14 +473,74 @@ public class GridManager : MonoBehaviour
             if (circleNodesAreOccupied && sticksAreOccupied)
             {
                 Debug.Log("this circle node is completed " + circleOrder);
+                completedCircleNodeOrdersList.Add(circleOrder);
+                
             }
-        }  
+        }
+
+        CheckIfAnyLineIsCompleted(completedCircleNodeOrdersList);
     }
 
-    public void CheckIfAnyLineIsCompleted()
+    public void CheckIfAnyLineIsCompleted(List<int> completedCircleOrderList)
     {
+        var rowListsToCheck = new List<List<int>>();
+        var columnListsToCheck = new List<List<int>>();
 
+        // Satýr listelerini oluþtur (son elemaný almadan)
+        for (int i = 0; i < _rowCount; i++)
+        {
+            var rowNumbers = new List<int>();
+            for (int j = 0; j < _columnCount - 1; j++)
+            {
+                rowNumbers.Add(i * _columnCount + j);
+            }
+            rowListsToCheck.Add(rowNumbers);
+        }
+
+        // Sütun listelerini oluþtur (son elemaný almadan)
+        for (int j = 0; j < _columnCount; j++)
+        {
+            var colNumbers = new List<int>();
+            for (int i = 0; i < _rowCount - 1; i++)
+            {
+                colNumbers.Add(i * _columnCount + j);
+            }
+            columnListsToCheck.Add(colNumbers);
+        }
+
+        // Debug log ile listeleri yazdýr
+        Debug.Log("Row Lists:");
+        foreach (var row in rowListsToCheck)
+        {
+            Debug.Log(string.Join(", ", row));
+        }
+
+        Debug.Log("Column Lists:");
+        foreach (var col in columnListsToCheck)
+        {
+            Debug.Log(string.Join(", ", col));
+        }
+
+        // completedCircleOrderList herhangi bir satýr veya sütun listesiyle tam eþleþiyor mu?
+        bool isRowCompleted = rowListsToCheck.Any(row => row.SequenceEqual(completedCircleOrderList));
+        bool isColumnCompleted = columnListsToCheck.Any(col => col.SequenceEqual(completedCircleOrderList));
+
+        if (isRowCompleted)
+        {
+            Debug.Log("A row is completed!");
+        }
+
+        if (isColumnCompleted)
+        {
+            Debug.Log("A column is completed!");
+        }
+
+        if (!isRowCompleted && !isColumnCompleted)
+        {
+            Debug.Log("No complete row or column found.");
+        }
     }
+
 
     void CenterCamera()
     {
