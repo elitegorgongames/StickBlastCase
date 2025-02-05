@@ -51,7 +51,11 @@ public class InputController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && _currentSelectedStick != null) // Mouse býrakýldýðýnda -> Çubuðu serbest býrak
         {
-            GridManager.Instance.SetConnectionSticksOccupied();
+            GridManager.Instance.SetConnectionSticksOccupied(out CircleNode referenceCircleNode);
+            if (referenceCircleNode!=null)
+            {
+                _currentSelectedStick.PlaceToGrid(referenceCircleNode.GetTransform().position);
+            }
             _currentSelectedStick.isPicked = false;
             _currentSelectedStick = null;
             _isDragging = false;

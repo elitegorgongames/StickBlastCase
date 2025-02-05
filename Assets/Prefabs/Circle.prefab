@@ -103,4 +103,7 @@ MonoBehaviour:
   coordinate: {x: 0, y: 0}
   rightConnectionStick: {fileID: 0}
   upConnectionStick: {fileID: 0}
+  spriteRenderer: {fileID: 9053743144063043467}
+  initialColor: {r: 0.84313726, g: 0.7411765, b: 0.8862745, a: 1}
+  hightligthColor: {r: 1, g: 0.81960785, b: 0.4, a: 1}
   offsetZ: -0.15

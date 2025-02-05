@@ -1,15 +1,21 @@
 using UnityEngine;
+using DG.Tweening;
+
 
 public class Stick : MonoBehaviour
 {
 
     public bool isPicked;
     public bool isPlaced;
-    public StickType stickType;
-  
-
+    public StickType stickType; 
  
     public Transform calculationTransformStartPoint;
+    private Transform _transform;
+
+    private void Awake()
+    {
+        _transform = transform;
+    }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,13 +24,20 @@ public class Stick : MonoBehaviour
            
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    public void PlaceToGrid(Vector3 referenceCircleNode)
     {
-        
+        var offset = referenceCircleNode - calculationTransformStartPoint.position;
+
+        var targetPos = _transform.position + offset;
+        var moveTime = PolishSettings.Instance.stickPlacementTime;
+        var moveAC = PolishSettings.Instance.stickPlacementAC;
+
+        _transform.DOMove(targetPos, moveTime).SetEase(moveAC);
+
+        Debug.Log("stick movement"+ offset+" offset"+ targetPos);
     }
-
-
 
 
     public Transform GetCalculationTransformStartPoint()

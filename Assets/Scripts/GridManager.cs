@@ -118,7 +118,7 @@ public class GridManager : MonoBehaviour
         }
         if (currentClosestCircleNodeToSelectedStick==null)
         {
-            CloseHighlightOfAllConnectionSticks();
+            CloseHighlightOfAllConnectionSticksAndCircleNodes();
             return;
         }
 
@@ -128,6 +128,7 @@ public class GridManager : MonoBehaviour
             {
                 if (currentClosestCircleNodeToSelectedStick.upConnectionStick!=null)
                 {
+                    currentClosestCircleNodeToSelectedStick.SetHighlightColor();
                     currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
 
                     connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.upConnectionStick);
@@ -139,6 +140,7 @@ public class GridManager : MonoBehaviour
             {
                 if (currentClosestCircleNodeToSelectedStick.rightConnectionStick != null)
                 {
+                    currentClosestCircleNodeToSelectedStick.SetHighlightColor();
                     currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
 
                     connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.rightConnectionStick);
@@ -150,6 +152,8 @@ public class GridManager : MonoBehaviour
             {
                 if (currentClosestCircleNodeToSelectedStick.rightConnectionStick != null && currentClosestCircleNodeToSelectedStick.upConnectionStick != null)
                 {
+                    currentClosestCircleNodeToSelectedStick.SetHighlightColor();
+
                     currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
                     currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
 
@@ -166,6 +170,10 @@ public class GridManager : MonoBehaviour
                     var rightNeighbor = GetRightNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
                     if (rightNeighbor!=null)
                     {
+                        currentClosestCircleNodeToSelectedStick.SetHighlightColor();
+                        rightNeighbor.SetHighlightColor();
+
+
                         rightNeighbor.upConnectionStick.SetHighlightColor();
                         currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
                         currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
@@ -181,10 +189,11 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void CloseHighlightOfAllConnectionSticks()
+    private void CloseHighlightOfAllConnectionSticksAndCircleNodes()
     {
         foreach (var cNode in circleNodeList)
         {
+            cNode.SetInitialColor();
             if (cNode.rightConnectionStick!=null)
             {
                 cNode.rightConnectionStick.SetInitialColor();
@@ -196,10 +205,12 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void SetConnectionSticksOccupied()
+
+    public void SetConnectionSticksOccupied(out CircleNode referenceCircleNode)
     {
         if (connectionSticksToPlaceList.Count==0)
         {
+            referenceCircleNode = null;
             return;
         }
 
@@ -207,6 +218,8 @@ public class GridManager : MonoBehaviour
         {
             connectionSticksToPlaceList[i].isOccupied = true;
         }
+
+        referenceCircleNode = currentClosestCircleNodeToSelectedStick;
     }
 
     private CircleNode GetRightNeighborOfCircleNode(CircleNode circleNode)
