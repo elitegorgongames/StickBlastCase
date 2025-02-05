@@ -481,32 +481,42 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        foreach (var item in completedCircleNodeOrdersList)
+        {
+            Debug.Log("completed list items " + item);
+        }
+
         var completedLists = CheckIfAnyLineIsCompleted(completedCircleNodeOrdersList);
 
-        var allCircleNodes = new List<CircleNode>();
-        for (int i = 0; i < completedLists.Count; i++)
+        var allCompletedCircleNodes = new List<List<CircleNode>>(); 
+
+        foreach (var completedList in completedLists)
         {
-          
-            foreach (var cNodeListOrder in completedLists[i])
+            var circleNodes = new List<CircleNode>();
+
+            foreach (var cNodeListOrder in completedList)
             {
                 var circleNode = GetCircleNodeByOrder(cNodeListOrder);
-                allCircleNodes.Add(circleNode);
+                circleNodes.Add(circleNode);
             }
+
+            allCompletedCircleNodes.Add(circleNodes); 
+        }
+   
+        for (int i = 0; i < allCompletedCircleNodes.Count; i++)
+        {
+            Debug.Log($"Completed list {i}: " + string.Join(", ", allCompletedCircleNodes[i].Select(node => node.circleNodeOrder)));
         }
 
-        for (int i = 0; i < allCircleNodes.Count; i++)
-        {
-            Debug.Log("completed circle node order is " + allCircleNodes[i].circleNodeOrder);
-        }
     }
 
     public List<List<int>> CheckIfAnyLineIsCompleted(List<int> completedCircleOrderList)
     {
         var rowListsToCheck = new List<List<int>>();
         var columnListsToCheck = new List<List<int>>();
-        var matchedLists = new List<List<int>>(); // Eþleþen listeleri tutacak
+        var matchedLists = new List<List<int>>(); 
 
-        // Satýr listelerini oluþtur
+    
         for (int i = 0; i < _rowCount; i++)
         {
             var rowNumbers = new List<int>();
@@ -517,7 +527,7 @@ public class GridManager : MonoBehaviour
             rowListsToCheck.Add(rowNumbers);
         }
 
-        // Sütun listelerini oluþtur
+  
         for (int j = 0; j < _columnCount; j++)
         {
             var colNumbers = new List<int>();
@@ -528,14 +538,17 @@ public class GridManager : MonoBehaviour
             columnListsToCheck.Add(colNumbers);
         }
 
-        // Eþleþen satýrlarý ekle (Set bazlý karþýlaþtýrma)
-        matchedLists.AddRange(rowListsToCheck.Where(row => !row.Except(completedCircleOrderList).Any() && !completedCircleOrderList.Except(row).Any()));
+ 
+        matchedLists.AddRange(rowListsToCheck.Where(row => row.OrderBy(x => x).SequenceEqual(completedCircleOrderList.OrderBy(x => x))));
+        matchedLists.AddRange(columnListsToCheck.Where(col => col.OrderBy(x => x).SequenceEqual(completedCircleOrderList.OrderBy(x => x))));
 
-        // Eþleþen sütunlarý ekle (Set bazlý karþýlaþtýrma)
-        matchedLists.AddRange(columnListsToCheck.Where(col => !col.Except(completedCircleOrderList).Any() && !completedCircleOrderList.Except(col).Any()));
-
-        return matchedLists; // Eðer eþleþen liste yoksa boþ liste dönecek (null deðil!)
+        if (matchedLists.Count>0)
+        {
+            Debug.Log("list is here dude");
+        }
+        return matchedLists; 
     }
+
 
 
     private CircleNode GetCircleNodeByOrder(int order)
