@@ -34,6 +34,7 @@ public class GridManager : MonoBehaviour
 
     void GenerateGrid()
     {
+        int orderCounter = 0;
         for (int row = 0; row < _rowCount; row++)
         {
             for (int col = 0; col < _columnCount; col++)
@@ -42,7 +43,9 @@ public class GridManager : MonoBehaviour
                 var circleNode = Instantiate(_circleObject, spawnPosition, Quaternion.identity, transform);
                 circleNode.coordinate = new Vector2Int(row, col);
                 circleNode.SetOffset();
+                circleNode.circleNodeOrder = orderCounter;
                 circleNodeList.Add(circleNode);
+                orderCounter++;
             }
         }
     }
@@ -478,15 +481,32 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        CheckIfAnyLineIsCompleted(completedCircleNodeOrdersList);
+        var completedLists = CheckIfAnyLineIsCompleted(completedCircleNodeOrdersList);
+
+        var allCircleNodes = new List<CircleNode>();
+        for (int i = 0; i < completedLists.Count; i++)
+        {
+          
+            foreach (var cNodeListOrder in completedLists[i])
+            {
+                var circleNode = GetCircleNodeByOrder(cNodeListOrder);
+                allCircleNodes.Add(circleNode);
+            }
+        }
+
+        for (int i = 0; i < allCircleNodes.Count; i++)
+        {
+            Debug.Log("completed circle node order is " + allCircleNodes[i].circleNodeOrder);
+        }
     }
 
-    public void CheckIfAnyLineIsCompleted(List<int> completedCircleOrderList)
+    public List<List<int>> CheckIfAnyLineIsCompleted(List<int> completedCircleOrderList)
     {
         var rowListsToCheck = new List<List<int>>();
         var columnListsToCheck = new List<List<int>>();
+        var matchedLists = new List<List<int>>(); // Eþleþen listeleri tutacak
 
-        // Satýr listelerini oluþtur (son elemaný almadan)
+        // Satýr listelerini oluþtur
         for (int i = 0; i < _rowCount; i++)
         {
             var rowNumbers = new List<int>();
@@ -497,7 +517,7 @@ public class GridManager : MonoBehaviour
             rowListsToCheck.Add(rowNumbers);
         }
 
-        // Sütun listelerini oluþtur (son elemaný almadan)
+        // Sütun listelerini oluþtur
         for (int j = 0; j < _columnCount; j++)
         {
             var colNumbers = new List<int>();
@@ -508,38 +528,30 @@ public class GridManager : MonoBehaviour
             columnListsToCheck.Add(colNumbers);
         }
 
-        // Debug log ile listeleri yazdýr
-        Debug.Log("Row Lists:");
-        foreach (var row in rowListsToCheck)
-        {
-            Debug.Log(string.Join(", ", row));
-        }
+        // Eþleþen satýrlarý ekle (Set bazlý karþýlaþtýrma)
+        matchedLists.AddRange(rowListsToCheck.Where(row => !row.Except(completedCircleOrderList).Any() && !completedCircleOrderList.Except(row).Any()));
 
-        Debug.Log("Column Lists:");
-        foreach (var col in columnListsToCheck)
-        {
-            Debug.Log(string.Join(", ", col));
-        }
+        // Eþleþen sütunlarý ekle (Set bazlý karþýlaþtýrma)
+        matchedLists.AddRange(columnListsToCheck.Where(col => !col.Except(completedCircleOrderList).Any() && !completedCircleOrderList.Except(col).Any()));
 
-        // completedCircleOrderList herhangi bir satýr veya sütun listesiyle tam eþleþiyor mu?
-        bool isRowCompleted = rowListsToCheck.Any(row => row.SequenceEqual(completedCircleOrderList));
-        bool isColumnCompleted = columnListsToCheck.Any(col => col.SequenceEqual(completedCircleOrderList));
-
-        if (isRowCompleted)
-        {
-            Debug.Log("A row is completed!");
-        }
-
-        if (isColumnCompleted)
-        {
-            Debug.Log("A column is completed!");
-        }
-
-        if (!isRowCompleted && !isColumnCompleted)
-        {
-            Debug.Log("No complete row or column found.");
-        }
+        return matchedLists; // Eðer eþleþen liste yoksa boþ liste dönecek (null deðil!)
     }
+
+
+    private CircleNode GetCircleNodeByOrder(int order)
+    {
+        foreach (var cNode in circleNodeList)
+        {
+            if (cNode.circleNodeOrder == order)
+            {
+                return cNode;
+            }
+        }
+
+        Debug.LogWarning("no circle node with this order");
+        return null;
+    }
+
 
 
     void CenterCamera()

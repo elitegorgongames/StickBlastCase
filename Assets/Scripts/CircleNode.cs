@@ -16,6 +16,7 @@ public class CircleNode : MonoBehaviour
     public bool isOccupied;
 
     public float offsetZ;
+    public int circleNodeOrder;
 
     Transform _transform;
 
