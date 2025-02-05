@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +16,25 @@ public class InputController : MonoBehaviour
     private Vector3 _initialStickPosition;
     private bool _isDragging = false;
 
+    public SpriteRenderer spriteRenderer;
     
+    public void DissolveBackground()
+    {
+        var material = spriteRenderer.material;
+        float dissolveValue = 1;
+
+     
+
+
+        Debug.Log("dissolve companion hero" + gameObject.name);
+        DOTween.To(() => dissolveValue, x => dissolveValue = x, 0, 1.5f)
+        .OnUpdate(() =>
+        {
+            material.SetFloat("_Fade", dissolveValue);
+
+            Debug.Log("dissolve companion hero" + gameObject.name);
+        });
+    }
 
     private void Awake()
     {
