@@ -481,35 +481,62 @@ public class GridManager : MonoBehaviour
             }
         }
 
+
+
         foreach (var item in completedCircleNodeOrdersList)
         {
             Debug.Log("completed list items " + item);
         }
+        var rowListsToCheck = new List<List<int>>();
+        var columnListsToCheck = new List<List<int>>();
 
-        var completedLists = CheckIfAnyLineIsCompleted(completedCircleNodeOrdersList);
-
-        var allCompletedCircleNodes = new List<List<CircleNode>>(); 
-
-        foreach (var completedList in completedLists)
+        for (int i = 0; i < _rowCount; i++)
         {
-            var circleNodes = new List<CircleNode>();
-
-            foreach (var cNodeListOrder in completedList)
+            var rowNumbers = new List<int>();
+            for (int j = 0; j < _columnCount - 1; j++)
             {
-                var circleNode = GetCircleNodeByOrder(cNodeListOrder);
-                circleNodes.Add(circleNode);
+                rowNumbers.Add(i * _columnCount + j);
             }
-
-            allCompletedCircleNodes.Add(circleNodes); 
+            rowListsToCheck.Add(rowNumbers);
         }
-   
-        for (int i = 0; i < allCompletedCircleNodes.Count; i++)
+
+
+        for (int j = 0; j < _columnCount; j++)
         {
-            Debug.Log($"Completed list {i}: " + string.Join(", ", allCompletedCircleNodes[i].Select(node => node.circleNodeOrder)));
+            var colNumbers = new List<int>();
+            for (int i = 0; i < _rowCount - 1; i++)
+            {
+                colNumbers.Add(i * _columnCount + j);
+            }
+            columnListsToCheck.Add(colNumbers);
         }
 
-    }
+        for (int i = 0; i < rowListsToCheck.Count; i++)
+        {
+            var allOfList1IsInList2 = rowListsToCheck[i].Intersect(completedCircleNodeOrdersList).Count() == rowListsToCheck[i].Count();
+            if (allOfList1IsInList2)
+            {
+                Debug.Log("contains here row");
 
+                foreach (var order in rowListsToCheck[i])
+                {
+                    var cNode = GetCircleNodeByOrder(order);
+                    Destroy(cNode.rightConnectionStick.gameObject);
+                    Destroy(cNode.upConnectionStick.gameObject);
+                }
+            }
+        }
+
+        for (int i = 0; i < columnListsToCheck.Count; i++)
+        {
+            var allOfList1IsInList2 = columnListsToCheck[i].Intersect(completedCircleNodeOrdersList).Count() == columnListsToCheck[i].Count();
+            if (allOfList1IsInList2)
+            {
+                Debug.Log("contains here column");
+            }
+        }  
+    }
+  
     public List<List<int>> CheckIfAnyLineIsCompleted(List<int> completedCircleOrderList)
     {
         var rowListsToCheck = new List<List<int>>();
@@ -538,7 +565,6 @@ public class GridManager : MonoBehaviour
             columnListsToCheck.Add(colNumbers);
         }
 
- 
         matchedLists.AddRange(rowListsToCheck.Where(row => row.OrderBy(x => x).SequenceEqual(completedCircleOrderList.OrderBy(x => x))));
         matchedLists.AddRange(columnListsToCheck.Where(col => col.OrderBy(x => x).SequenceEqual(completedCircleOrderList.OrderBy(x => x))));
 

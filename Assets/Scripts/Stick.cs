@@ -50,6 +50,11 @@ public class Stick : MonoBehaviour
         _transform.DOMove(startPoint, moveTime).SetEase(moveAC);
     }
 
+    public void Dissolve()
+    {
+
+    }
+
     public void SetStartPoint()
     {
         startPoint = _transform.position;
