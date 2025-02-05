@@ -13,7 +13,9 @@ public class GridManager : MonoBehaviour
 
     public List<CircleNode> circleNodeList;
     public CircleNode currentClosestCircleNodeToSelectedStick;
+    public List<ConnectionStick> connectionSticksToPlaceList;
     public float minDistanceToPlaceGrid;
+    public bool enableToPlace;
 
 
     private void Awake()
@@ -89,7 +91,10 @@ public class GridManager : MonoBehaviour
 
     public void FindClosestCircleNodeToSelectedStick(Stick stick)
     {
+        enableToPlace = false;
         var closestDistance = minDistanceToPlaceGrid;
+        currentClosestCircleNodeToSelectedStick = null;
+        connectionSticksToPlaceList.Clear();
 
         for (int i = 0; i < circleNodeList.Count; i++)
         {
@@ -111,6 +116,11 @@ public class GridManager : MonoBehaviour
                 circleNodeList[i].rightConnectionStick.SetInitialColor();
             }     
         }
+        if (currentClosestCircleNodeToSelectedStick==null)
+        {
+            CloseHighlightOfAllConnectionSticks();
+            return;
+        }
 
         if (currentClosestCircleNodeToSelectedStick!=null)
         {
@@ -118,7 +128,11 @@ public class GridManager : MonoBehaviour
             {
                 if (currentClosestCircleNodeToSelectedStick.upConnectionStick!=null)
                 {
-                    currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();            
+                    currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
+
+                    connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.upConnectionStick);
+
+                    enableToPlace = true;
                 }                
             }
             if (stick.stickType == StickType.Horizontal)
@@ -126,6 +140,10 @@ public class GridManager : MonoBehaviour
                 if (currentClosestCircleNodeToSelectedStick.rightConnectionStick != null)
                 {
                     currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
+
+                    connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.rightConnectionStick);
+
+                    enableToPlace = true;
                 }
             }
             if (stick.stickType == StickType.LType)
@@ -134,6 +152,11 @@ public class GridManager : MonoBehaviour
                 {
                     currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
                     currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
+
+                    connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.rightConnectionStick);
+                    connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.upConnectionStick);
+
+                    enableToPlace = true;
                 }
             }
             if (stick.stickType == StickType.UType)
@@ -146,9 +169,43 @@ public class GridManager : MonoBehaviour
                         rightNeighbor.upConnectionStick.SetHighlightColor();
                         currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
                         currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
+
+                        connectionSticksToPlaceList.Add(rightNeighbor.upConnectionStick);
+                        connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.rightConnectionStick);
+                        connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.upConnectionStick);
+
+                        enableToPlace = true;
                     }
                 }
             }
+        }
+    }
+
+    private void CloseHighlightOfAllConnectionSticks()
+    {
+        foreach (var cNode in circleNodeList)
+        {
+            if (cNode.rightConnectionStick!=null)
+            {
+                cNode.rightConnectionStick.SetInitialColor();
+            }
+            if (cNode.upConnectionStick!=null)
+            {
+                cNode.upConnectionStick.SetInitialColor();
+            }
+        }
+    }
+
+    public void SetConnectionSticksOccupied()
+    {
+        if (connectionSticksToPlaceList.Count==0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < connectionSticksToPlaceList.Count; i++)
+        {
+            connectionSticksToPlaceList[i].isOccupied = true;
         }
     }
 

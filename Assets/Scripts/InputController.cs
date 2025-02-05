@@ -7,7 +7,6 @@ public class InputController : MonoBehaviour
 
     [SerializeField] private Stick _currentSelectedStick;
     [SerializeField] private float _movementOffset = 1.0f; // Çubuðun yukarý kayma miktarý
-    [SerializeField] private ConnectionStick _connectionStickToPlace;
 
 
     private Camera _mainCamera;
@@ -52,9 +51,11 @@ public class InputController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && _currentSelectedStick != null) // Mouse býrakýldýðýnda -> Çubuðu serbest býrak
         {
+            GridManager.Instance.SetConnectionSticksOccupied();
             _currentSelectedStick.isPicked = false;
             _currentSelectedStick = null;
             _isDragging = false;
+            GridManager.Instance.enableToPlace = false;
         }
     }
 
@@ -71,10 +72,5 @@ public class InputController : MonoBehaviour
         // Yeni pozisyon: X ve Y ekseninde hareket etsin, Z ekseni sabit kalsýn
         Vector3 newPosition = _initialStickPosition + new Vector3(worldDelta.x, worldDelta.y + _movementOffset, 0);
         _currentSelectedStick.transform.position = newPosition;
-    }
-
-    public void SetConnectionStickToPlaceCurrentSelectedStick(ConnectionStick connectionStick)
-    {
-        _connectionStickToPlace = connectionStick;
-    }
+    }   
 }
