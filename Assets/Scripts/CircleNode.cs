@@ -46,6 +46,25 @@ public class CircleNode : MonoBehaviour
         upNeighborCNode.isOccupied = false;
         upNeighborCNode.isCompleted = false;
         upNeighborCNode.SetInitialColor();
+
+        if (rightConnectionStick!=null)
+        {
+            rightConnectionStick.SetInitialColor();
+            rightConnectionStick.SendRayToFindStick();
+        }
+
+        if (upConnectionStick!=null)
+        {
+            upConnectionStick.SetInitialColor();
+            upConnectionStick.SendRayToFindStick();
+        }
+
+        var upRightConnectionStick = upNeighborCNode.rightConnectionStick;
+        if (upRightConnectionStick!=null)
+        {
+            upRightConnectionStick.SetInitialColor();
+            upRightConnectionStick.SendRayToFindStick();
+        }    
     }
 
     public void CompleteToUp()

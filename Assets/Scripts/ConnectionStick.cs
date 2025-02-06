@@ -13,6 +13,7 @@ public class ConnectionStick : MonoBehaviour
     public GameObject defaultStickObject;
 
     public Transform transformToSendRay;
+    public LayerMask stickPartLayer;
 
     Transform _transform;
 
@@ -36,6 +37,23 @@ public class ConnectionStick : MonoBehaviour
         //        stick.gameObject.AddComponent<Rigidbody>();
         //    }
         //}
+    }
+
+    public void SendRayToFindStick()
+    {
+        float maxRange = 5f;
+        RaycastHit hit;
+
+        if (Physics.Raycast(transformToSendRay.position, -Vector3.forward, out hit, maxRange, stickPartLayer))
+        {
+            Debug.DrawRay(transformToSendRay.position, -Vector3.forward * maxRange, Color.blue, 10f);
+
+            if (hit.transform.gameObject.TryGetComponent(out StickPart stickPart))
+            {
+                stickPart.Dissolve();
+                isOccupied = false;
+            }
+        }
     }
 
     public Transform GetTransform()

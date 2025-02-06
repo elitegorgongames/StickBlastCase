@@ -1,6 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
-
+using System.Collections.Generic;
 
 public class Stick : MonoBehaviour
 {
@@ -12,6 +12,7 @@ public class Stick : MonoBehaviour
  
     public Transform calculationTransformStartPoint;
     private Transform _transform;
+
 
     private void Awake()
     {
@@ -50,10 +51,6 @@ public class Stick : MonoBehaviour
         _transform.DOMove(startPoint, moveTime).SetEase(moveAC);
     }
 
-    public void Dissolve()
-    {
-
-    }
 
     public void SetStartPoint()
     {
@@ -64,7 +61,6 @@ public class Stick : MonoBehaviour
     {
         return calculationTransformStartPoint;
     }
-
 }
 
 

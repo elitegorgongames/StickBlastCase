@@ -42,7 +42,7 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
         .OnUpdate(() =>
         {
             materialToDissolve.SetFloat("_Fade", dissolveValue);    
-        })/*.OnComplete(DestroyObject)*/;
+        }).OnComplete(DestroyObject);
     }
 
     private void DestroyObject()

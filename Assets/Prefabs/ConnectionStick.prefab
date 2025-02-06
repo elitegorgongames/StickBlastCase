@@ -54,6 +54,9 @@ MonoBehaviour:
   highlightObject: {fileID: 3003069838223605546}
   defaultStickObject: {fileID: 1237916535310736539}
   transformToSendRay: {fileID: 5018670768081559031}
+  stickPartLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1237916535310736539
 GameObject:
   m_ObjectHideFlags: 0

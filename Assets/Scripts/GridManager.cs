@@ -525,27 +525,19 @@ public class GridManager : MonoBehaviour
         {
             var allOfList1IsInList2 = rowListsToCheck[i].Intersect(completedCircleNodeOrdersList).Count() == rowListsToCheck[i].Count();
             if (allOfList1IsInList2)
-            {
-                Debug.Log("contains here row");
-             
+            {                           
                 for (int j = 0; j < rowListsToCheck[i].Count; j++)
                 {
                     var cNode = GetCircleNodeByOrder(rowListsToCheck[i][j]);
                     cNode.CompleteToRight();
                     lastOrderRow = cNode.circleNodeOrder+1;
                     rowComplete = true;
-                }            
-                //foreach (var order in rowListsToCheck[i])
-                //{
-                //    var cNode = GetCircleNodeByOrder(order);
-                //    cNode.CompleteCircleNode();
-                //}
+                }               
             }
         }
 
         if (rowComplete)
-        {
-            Debug.Log("last order here " + lastOrderRow);
+        {   
             var lastCNode = GetCircleNodeByOrder(lastOrderRow);
             lastCNode.CompleteToRight();
         }
@@ -555,9 +547,7 @@ public class GridManager : MonoBehaviour
         {
             var allOfList1IsInList2 = columnListsToCheck[i].Intersect(completedCircleNodeOrdersList).Count() == columnListsToCheck[i].Count();
             if (allOfList1IsInList2)
-            {
-                Debug.Log("contains here column");
-
+            {    
                 foreach (var order in columnListsToCheck[i])
                 {
                     var cNode = GetCircleNodeByOrder(order);

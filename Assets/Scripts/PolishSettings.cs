@@ -12,6 +12,9 @@ public class PolishSettings : MonoBehaviour
     public float stickPlacementTime;
     public AnimationCurve stickPlacementAC;
 
+    [Header("Dissolve")]
+    public Material dissolveMaterial;
+
 
     private void Awake()
     {
