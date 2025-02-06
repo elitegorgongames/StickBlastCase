@@ -527,19 +527,7 @@ public class GridManager : MonoBehaviour
                 foreach (var order in rowListsToCheck[i])
                 {
                     var cNode = GetCircleNodeByOrder(order);
-                    cNode.completedCircleNodeObject.GetComponent<SpriteRenderer>().material = Instantiate(cNode.dissolveMaterial);
-                    var material = cNode.completedCircleNodeObject.GetComponent<SpriteRenderer>().material;
-                    float dissolveValue = 1;
-
-
-                    Debug.Log("dissolve companion hero" + gameObject.name);
-                    DOTween.To(() => dissolveValue, x => dissolveValue = x, 0, .5f)
-                    .OnUpdate(() =>
-                    {
-                        material.SetFloat("_Fade", dissolveValue);
-
-                        Debug.Log("dissolve companion hero" + gameObject.name);
-                    });
+                    cNode.completedCircleNodeObject.Dissolve();
                 }
             }
         }

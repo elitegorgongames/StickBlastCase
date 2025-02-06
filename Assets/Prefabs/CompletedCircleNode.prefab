@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4942023255143969161}
   - component: {fileID: 110008087817714759}
+  - component: {fileID: 4400876354251297149}
   m_Layer: 0
   m_Name: CompletedCircleNode
   m_TagString: Untagged
@@ -87,3 +88,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4400876354251297149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6103761045398077221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfa84d82a0a937040beb9d5706675802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 110008087817714759}
+  dissolveMaterial: {fileID: 2100000, guid: fdc43aac418df7544b4c7941009ca16a, type: 2}
+  initialTargetScale: {x: 2.19, y: 2.19, z: 2.19}
+  scaleTime: 0.1
+  scaleAC:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
