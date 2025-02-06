@@ -10,10 +10,13 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     public float scaleTime;
     public AnimationCurve scaleAC;
 
+    BoxCollider _collider;
+
     Transform _transform;
 
     private void Awake()
     {
+        _collider = GetComponent<BoxCollider>();
         _transform = transform;
     }
 
@@ -31,7 +34,9 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     }
 
     public void Dissolve()
-    {  
+    {
+        Debug.Log("dissolve stick part");
+        //_collider.size *= .1f;
         var materialToDissolve = Instantiate(dissolveMaterial);
         spriteRenderer.material = materialToDissolve;
         float dissolveValue = 1;

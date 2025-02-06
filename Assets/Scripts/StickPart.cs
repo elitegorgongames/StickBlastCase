@@ -19,9 +19,9 @@ public class StickPart : MonoBehaviour
     {
         if (collideWithCompletedObject)
         {
-            return;
+            //return;
         }
-
+        Debug.Log("dissolve stick part");
         var materialToDissolve = Instantiate(PolishSettings.Instance.dissolveMaterial);
         spriteRenderer.material = materialToDissolve;
         float dissolveValue = 1;
@@ -42,7 +42,7 @@ public class StickPart : MonoBehaviour
 
     //private void OnTriggerStay(Collider other)
     //{
-    //    if (TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
+    //    if (other.gameObject.TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
     //    {
     //        collideWithCompletedObject = true;
     //    }
@@ -50,7 +50,7 @@ public class StickPart : MonoBehaviour
 
     //private void OnTriggerExit(Collider other)
     //{
-    //    if (TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
+    //    if (other.gameObject.TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
     //    {
     //        collideWithCompletedObject = false;
     //    }

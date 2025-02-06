@@ -53,7 +53,7 @@ public class ConnectionStick : MonoBehaviour
                 stickPart.Dissolve();
                 isOccupied = false;
             }
-        }
+        }        
     }
 
     public Transform GetTransform()

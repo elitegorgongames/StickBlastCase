@@ -421,6 +421,26 @@ public class GridManager : MonoBehaviour
         return upNeighbor;
     }
 
+    public CircleNode FindDownNeighborOfCircleNode(CircleNode circleNode)
+    {
+        var downNeighborCircleNodeCoordinates = new Vector2Int(circleNode.coordinate.x - 1, circleNode.coordinate.y);
+        CircleNode downNeighbor = null;
+        if (downNeighborCircleNodeCoordinates.y >= 0)
+        {
+            foreach (var cNode in circleNodeList)
+            {
+                if (cNode.coordinate.x == downNeighborCircleNodeCoordinates.x && cNode.coordinate.y == downNeighborCircleNodeCoordinates.y)
+                {
+                    downNeighbor = cNode;
+                    break;
+                }
+            }
+        }
+
+        return downNeighbor;
+    }
+
+
     public CircleNode FindRightUpCircleNode(CircleNode circleNode)
     {
         var rightUpNeighborCircleNodeCoordinates = new Vector2Int(circleNode.coordinate.x + 1, circleNode.coordinate.y+1);
