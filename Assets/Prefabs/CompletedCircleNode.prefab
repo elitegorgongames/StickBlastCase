@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: 4962364599577071265, guid: 78249c0d02e90304c8704d588b48f8a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 110008087817714759}
   dissolveMaterial: {fileID: 2100000, guid: fdc43aac418df7544b4c7941009ca16a, type: 2}
-  initialTargetScale: {x: 2.19, y: 2.19, z: 2.19}
+  initialTargetScale: {x: 2.43, y: 2.19, z: 2.19}
   scaleTime: 0.1
   scaleAC:
     serializedVersion: 2

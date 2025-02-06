@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1948514100278400535, guid: c09a7fad1664e914b853925f7cf1dec9, type: 3}
   m_Color: {r: 1, g: 0.81960785, b: 0.4, a: 1}
   m_FlipX: 0
@@ -137,7 +137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPicked: 0
   isPlaced: 0
-  stickType: 4
+  stickType: 2
+  startPoint: {x: 0, y: 0, z: 0}
   calculationTransformStartPoint: {fileID: 2729825189398933787}
 --- !u!65 &7982453138727241473
 BoxCollider:
@@ -266,7 +267,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 8607414894980389933, guid: 2c3211d95f56ef045a657b1b87cb04b1, type: 3}
   m_Color: {r: 1, g: 0.81960785, b: 0.4, a: 1}
   m_FlipX: 0

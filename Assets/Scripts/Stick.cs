@@ -71,13 +71,13 @@ public class Stick : MonoBehaviour
 public enum StickType
 {
     Vertical,
-    DoubleLengthVertical,
-    DoubleLengthHorizontal,
     Horizontal,
-    LType,    
+    LType,
+    UType,
+    DoubleLengthVertical,
+    DoubleLengthHorizontal,     
     DownwardsLType,
     MirroredLType,
     DoubleLengthLType,
-    UType,
     DownwardsUType
 };

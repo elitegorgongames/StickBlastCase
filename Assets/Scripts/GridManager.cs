@@ -122,12 +122,12 @@ public class GridManager : MonoBehaviour
         }
         if (currentClosestCircleNodeToSelectedStick==null)
         {
-            CloseHighlightOfAllConnectionSticksAndCircleNodes();
+            CloseHighlightOfAllConnectionSticksAndCircleNodes();         
             return;
         }
 
         if (!IsStickFitIntoTheCircleNode(currentPickedStick, currentClosestCircleNodeToSelectedStick))
-        {
+        {          
             return;
         }
 
@@ -235,11 +235,11 @@ public class GridManager : MonoBehaviour
         if (stickType == StickType.Vertical)
         {
             if (closestCircleNode.upConnectionStick==null)
-            {
+            {              
                 return false;
             }
             if (closestCircleNode.upConnectionStick.isOccupied)
-            {
+            {                
                 return false;
             }
         }
@@ -381,7 +381,7 @@ public class GridManager : MonoBehaviour
         referenceCircleNode = currentClosestCircleNodeToSelectedStick;
     }
 
-    private CircleNode FindRightNeighborOfCircleNode(CircleNode circleNode)
+    public CircleNode FindRightNeighborOfCircleNode(CircleNode circleNode)
     {
         var rightNeighborCircleCoordinates = new Vector2Int(circleNode.coordinate.x, circleNode.coordinate.y+1);
         CircleNode rightNeighbor = null;
@@ -400,7 +400,7 @@ public class GridManager : MonoBehaviour
         return rightNeighbor;
     }
 
-    private CircleNode FindUpNeighborOfCircleNode(CircleNode circleNode)
+    public CircleNode FindUpNeighborOfCircleNode(CircleNode circleNode)
     {
         var upNeighborCircleNodeCoordinates = new Vector2Int(circleNode.coordinate.x+1, circleNode.coordinate.y);
         CircleNode upNeighbor = null;
@@ -419,7 +419,7 @@ public class GridManager : MonoBehaviour
         return upNeighbor;
     }
 
-    private CircleNode FindRightUpCircleNode(CircleNode circleNode)
+    public CircleNode FindRightUpCircleNode(CircleNode circleNode)
     {
         var rightUpNeighborCircleNodeCoordinates = new Vector2Int(circleNode.coordinate.x + 1, circleNode.coordinate.y+1);
         CircleNode rightUpNeighbor = null;
@@ -517,20 +517,39 @@ public class GridManager : MonoBehaviour
             columnListsToCheck.Add(colNumbers);
         }
 
+        bool rowComplete = false;
+        bool columnComplete = false;
+        var lastOrderRow = 0;
+        var lastOrderColumn = 0;
         for (int i = 0; i < rowListsToCheck.Count; i++)
         {
             var allOfList1IsInList2 = rowListsToCheck[i].Intersect(completedCircleNodeOrdersList).Count() == rowListsToCheck[i].Count();
             if (allOfList1IsInList2)
             {
                 Debug.Log("contains here row");
-
-                foreach (var order in rowListsToCheck[i])
+             
+                for (int j = 0; j < rowListsToCheck[i].Count; j++)
                 {
-                    var cNode = GetCircleNodeByOrder(order);
-                    cNode.completedCircleNodeObject.Dissolve();
-                }
+                    var cNode = GetCircleNodeByOrder(rowListsToCheck[i][j]);
+                    cNode.CompleteToRight();
+                    lastOrderRow = cNode.circleNodeOrder+1;
+                    rowComplete = true;
+                }            
+                //foreach (var order in rowListsToCheck[i])
+                //{
+                //    var cNode = GetCircleNodeByOrder(order);
+                //    cNode.CompleteCircleNode();
+                //}
             }
         }
+
+        if (rowComplete)
+        {
+            Debug.Log("last order here " + lastOrderRow);
+            var lastCNode = GetCircleNodeByOrder(lastOrderRow);
+            lastCNode.CompleteToRight();
+        }
+     
 
         for (int i = 0; i < columnListsToCheck.Count; i++)
         {
@@ -538,8 +557,22 @@ public class GridManager : MonoBehaviour
             if (allOfList1IsInList2)
             {
                 Debug.Log("contains here column");
+
+                foreach (var order in columnListsToCheck[i])
+                {
+                    var cNode = GetCircleNodeByOrder(order);
+                    cNode.CompleteToUp();
+                    lastOrderColumn = cNode.circleNodeOrder + 6;
+                    columnComplete = true;
+                }
             }
-        }  
+        }
+
+        if (columnComplete)
+        {
+            var lastCNode = GetCircleNodeByOrder(lastOrderColumn);
+            lastCNode.CompleteToUp();
+        }
     }
   
     public List<List<int>> CheckIfAnyLineIsCompleted(List<int> completedCircleOrderList)

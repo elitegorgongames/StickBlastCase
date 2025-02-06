@@ -39,6 +39,45 @@ public class CircleNode : MonoBehaviour
         completedCircleNodeObject = completedObject;
     }
 
+    public void CompleteToRight() 
+    {
+        CompleteCircleNode();
+        var upNeighborCNode = GridManager.Instance.FindUpNeighborOfCircleNode(this);
+        upNeighborCNode.isOccupied = false;
+        upNeighborCNode.isCompleted = false;
+        upNeighborCNode.SetInitialColor();
+    }
+
+    public void CompleteToUp()
+    {
+        CompleteCircleNode();
+        var rightNeighborCNode = GridManager.Instance.FindRightNeighborOfCircleNode(this);
+        rightNeighborCNode.isOccupied = false;
+        rightNeighborCNode.isCompleted = false;
+        rightNeighborCNode.SetInitialColor();
+    }
+
+    public void CompleteCircleNode()
+    {
+        if (completedCircleNodeObject!=null)
+        {
+            completedCircleNodeObject.Dissolve();
+        }
+     
+        isOccupied = false;
+        isCompleted = false;
+        SetInitialColor();
+
+        if (upConnectionStick!=null)
+        {
+            upConnectionStick.isOccupied = false;
+        }
+        if (rightConnectionStick!=null)
+        {
+            rightConnectionStick.isOccupied = false;
+        }
+    }
+
     public Transform GetTransform()
     {
         return _transform;

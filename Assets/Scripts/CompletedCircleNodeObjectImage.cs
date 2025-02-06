@@ -31,19 +31,17 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     }
 
     public void Dissolve()
-    {
+    {  
         var materialToDissolve = Instantiate(dissolveMaterial);
         spriteRenderer.material = materialToDissolve;
         float dissolveValue = 1;
         float randomOffset = Random.Range(0, 50f);
         materialToDissolve.SetFloat("_Offset", randomOffset);
-        Debug.Log("dissolve companion hero" + gameObject.name);
+    
         DOTween.To(() => dissolveValue, x => dissolveValue = x, 0, .5f)
         .OnUpdate(() =>
         {
-            materialToDissolve.SetFloat("_Fade", dissolveValue);
-
-            Debug.Log("dissolve companion hero" + gameObject.name);
+            materialToDissolve.SetFloat("_Fade", dissolveValue);    
         })/*.OnComplete(DestroyObject)*/;
     }
 
