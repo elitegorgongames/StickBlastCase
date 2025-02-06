@@ -98,6 +98,8 @@ public class GridManager : MonoBehaviour
         connectionSticksToPlaceList.Clear();
         highlitghedCicrleNodesList.Clear();
 
+        CloseHighlightOfAllConnectionSticksAndCircleNodes();
+
         var currentPickedStick = InputController.Instance.GetCurrentSelectedStick();
 
         for (int i = 0; i < circleNodeList.Count; i++)
@@ -122,7 +124,7 @@ public class GridManager : MonoBehaviour
         }
         if (currentClosestCircleNodeToSelectedStick==null)
         {
-            CloseHighlightOfAllConnectionSticksAndCircleNodes();         
+            //CloseHighlightOfAllConnectionSticksAndCircleNodes();         
             return;
         }
 
@@ -228,7 +230,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private bool IsStickFitIntoTheCircleNode(Stick stick, CircleNode closestCircleNode)
+    public bool IsStickFitIntoTheCircleNode(Stick stick, CircleNode closestCircleNode)
     {
         var stickType = stick.stickType;
 
@@ -603,6 +605,10 @@ public class GridManager : MonoBehaviour
         return matchedLists; 
     }
 
+    public List<CircleNode> GetAllCircleNodes()
+    {
+        return circleNodeList;
+    }
 
 
     private CircleNode GetCircleNodeByOrder(int order)

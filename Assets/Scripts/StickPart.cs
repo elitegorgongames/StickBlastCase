@@ -7,6 +7,7 @@ public class StickPart : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Material dissolveMaterial;
 
+    public bool collideWithCompletedObject;
 
     private void Awake()
     {
@@ -16,6 +17,11 @@ public class StickPart : MonoBehaviour
 
     public void Dissolve()
     {
+        if (collideWithCompletedObject)
+        {
+            return;
+        }
+
         var materialToDissolve = Instantiate(PolishSettings.Instance.dissolveMaterial);
         spriteRenderer.material = materialToDissolve;
         float dissolveValue = 1;
@@ -33,4 +39,20 @@ public class StickPart : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
+    //    {
+    //        collideWithCompletedObject = true;
+    //    }
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
+    //    {
+    //        collideWithCompletedObject = false;
+    //    }
+    //}
 }

@@ -8,6 +8,9 @@ public class PolishSettings : MonoBehaviour
     [Header("Stick Movement")]
     public float stickFirstHoldOffsetMovementTime;
 
+    [Header("StickSpawnMovement")]
+    public float moveToStartPointSpeed;
+
     [Header("Stick Placement")]
     public float stickPlacementTime;
     public AnimationCurve stickPlacementAC;

@@ -13,6 +13,7 @@ public class Stick : MonoBehaviour
     public Transform calculationTransformStartPoint;
     private Transform _transform;
 
+    
 
     private void Awake()
     {
@@ -27,6 +28,14 @@ public class Stick : MonoBehaviour
     }
 
 
+    public void MoveToTarget(Vector3 target)
+    {
+        var distance = Vector3.Distance(_transform.position, target);
+        var moveSpeed = PolishSettings.Instance.moveToStartPointSpeed;
+        var moveTime = distance/moveSpeed;
+
+        _transform.DOMove(target, moveTime).OnComplete(SetStartPoint);
+    }
 
     public void PlaceToGrid(Vector3 referenceCircleNode)
     {
