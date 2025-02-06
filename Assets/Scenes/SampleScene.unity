@@ -2906,6 +2906,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  dissolveMaterial: {fileID: 2100000, guid: fdc43aac418df7544b4c7941009ca16a, type: 2}
 --- !u!4 &2037762052
 Transform:
   m_ObjectHideFlags: 0
