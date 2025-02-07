@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
   dissolveMaterial: {fileID: 0}
+  collideWithCompletedObject: 0
 --- !u!65 &4285393436359225502
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -122,8 +123,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.89, y: 5.86, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.7822819, y: 1.9768472, z: 0.2}
+  m_Center: {x: -0.071507394, y: 0.17961478, z: 0}
 --- !u!1 &1713672161969434642
 GameObject:
   m_ObjectHideFlags: 0

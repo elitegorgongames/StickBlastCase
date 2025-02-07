@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class StickPart : MonoBehaviour
@@ -8,19 +9,23 @@ public class StickPart : MonoBehaviour
     public Material dissolveMaterial;
 
     public bool collideWithCompletedObject;
+    public bool isDissolving;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-
-    public void Dissolve()
+    IEnumerator DissolveWithDelay()
     {
+        isDissolving = true;
+        yield return new WaitForSeconds(.1f);
         if (collideWithCompletedObject)
         {
-            //return;
+            isDissolving = false;
+            yield break;
         }
+      
         Debug.Log("dissolve stick part");
         var materialToDissolve = Instantiate(PolishSettings.Instance.dissolveMaterial);
         spriteRenderer.material = materialToDissolve;
@@ -32,7 +37,16 @@ public class StickPart : MonoBehaviour
         .OnUpdate(() =>
         {
             materialToDissolve.SetFloat("_Fade", dissolveValue);
-        }).OnComplete(DestroyObject);
+        }).OnComplete(() =>
+        {
+            DestroyObject();
+            ConnectionStickManager.Instance.UpdateConnectionStickHighlightStates();  
+        });
+    }
+    public void Dissolve()
+    {
+        StartCoroutine(DissolveWithDelay());
+        return;        
     }
 
     private void DestroyObject()
@@ -40,19 +54,19 @@ public class StickPart : MonoBehaviour
         Destroy(gameObject);
     }
 
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.gameObject.TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
-    //    {
-    //        collideWithCompletedObject = true;
-    //    }
-    //}
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
+        {
+            collideWithCompletedObject = true;
+        }
+    }
 
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.gameObject.TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
-    //    {
-    //        collideWithCompletedObject = false;
-    //    }
-    //}
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out CompletedCircleNodeObjectImage completedCircleNodeObjectImage))
+        {
+            collideWithCompletedObject = false;
+        }
+    }
 }

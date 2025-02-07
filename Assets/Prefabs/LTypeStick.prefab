@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
   dissolveMaterial: {fileID: 0}
+  collideWithCompletedObject: 0
 --- !u!65 &1912373473186997016
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -122,8 +123,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.89, y: 5.8, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.2135468, y: 1.1010232, z: 0.2}
+  m_Center: {x: -0.10863584, y: 0.57740426, z: 0}
 --- !u!1 &7013386072417165528
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
   dissolveMaterial: {fileID: 0}
+  collideWithCompletedObject: 0
 --- !u!65 &6033189348625365251
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -351,5 +353,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5.81, y: 1.88, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.0241983, y: 3.1506472, z: 0.2}
+  m_Center: {x: 0.65929186, y: 0.06001091, z: 0}

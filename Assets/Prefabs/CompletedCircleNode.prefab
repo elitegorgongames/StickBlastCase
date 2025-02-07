@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4400876354251297149}
   - component: {fileID: 721939446934391749}
   - component: {fileID: 127050028095510260}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CompletedCircleNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,8 +149,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.4291992, y: 3.2869203, z: 0.7059681}
-  m_Center: {x: -0.02056903, y: -0.049566254, z: -0.027508313}
+  m_Size: {x: 2.117471, y: 2.3436334, z: 0.7059681}
+  m_Center: {x: -0.20851743, y: -0.4453216, z: -0.027508328}
 --- !u!54 &127050028095510260
 Rigidbody:
   m_ObjectHideFlags: 0

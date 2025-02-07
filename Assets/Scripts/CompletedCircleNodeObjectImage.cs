@@ -10,6 +10,8 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     public float scaleTime;
     public AnimationCurve scaleAC;
 
+    public CircleNode belongedCircleNode;
+
     BoxCollider _collider;
 
     Transform _transform;
@@ -24,9 +26,14 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     void Start()
     {
         ScaleUp();
+
+        ConnectionStickManager.Instance.completedObjectsList.Add(this);
     }
 
-
+    private void OnDestroy()
+    {
+        ConnectionStickManager.Instance.completedObjectsList.Remove(this);
+    }
 
     private void ScaleUp()
     {
@@ -36,7 +43,7 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     public void Dissolve()
     {
         Debug.Log("dissolve stick part");
-        //_collider.size *= .1f;
+        _collider.size *= .1f;
         var materialToDissolve = Instantiate(dissolveMaterial);
         spriteRenderer.material = materialToDissolve;
         float dissolveValue = 1;

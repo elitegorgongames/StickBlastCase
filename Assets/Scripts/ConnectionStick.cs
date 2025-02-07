@@ -15,6 +15,16 @@ public class ConnectionStick : MonoBehaviour
     public Transform transformToSendRay;
     public LayerMask stickPartLayer;
 
+    public CircleNode rightCircleNode;
+    public CircleNode leftCircleNode;
+    public CircleNode upCircleNode;
+    public CircleNode downCircleNode;
+
+    public Stick verticalStick;
+    public Stick horizontalStick;
+    public Transform verticallStickTransform;
+    public Transform horizontalStickTransform;
+
     Transform _transform;
 
     private void Awake()
@@ -24,19 +34,21 @@ public class ConnectionStick : MonoBehaviour
         initialColor = spriteRenderer.color;
     }
 
-    private void Update()
+    private void Start()
     {
-        //float maxRange = 5;
-        //RaycastHit hit;
+        ConnectionStickManager.Instance.AddToConnectionStickList(this);
+    }
 
-        //if (Physics.Raycast(transformToSendRay.position, (-Vector3.forward), out hit, maxRange))
-        //{
-        //    if (hit.transform.gameObject.TryGetComponent(out Stick stick))
-        //    {
-        //        Debug.DrawRay(transformToSendRay.position, -Vector3.forward, Color.blue, 1f);
-        //        stick.gameObject.AddComponent<Rigidbody>();
-        //    }
-        //}
+    public void SpawnVerticalStick()
+    {
+        var stick = Instantiate(verticalStick);
+        stick.transform.position = verticallStickTransform.position;
+    }
+
+    public void SpawnHorizontalStick()
+    {
+        var stick = Instantiate(horizontalStick);
+        stick.transform.position = horizontalStickTransform.position;
     }
 
     public void SendRayToFindStick()
@@ -53,7 +65,31 @@ public class ConnectionStick : MonoBehaviour
                 stickPart.Dissolve();
                 isOccupied = false;
             }
-        }        
+        }
+
+        SetCircleNodeHighlithStates();
+    }
+
+    public void SetOccupiedState()
+    {
+        float maxRange = 5f;
+        RaycastHit hit;
+
+        if (Physics.Raycast(transformToSendRay.position, -Vector3.forward, out hit, maxRange, stickPartLayer))
+        { 
+            if (hit.transform.gameObject.TryGetComponent(out StickPart stickPart))
+            {
+                if (stickPart.isDissolving)
+                {
+                    return;
+                }
+                else
+                {
+                    isOccupied = true;
+                }
+              
+            }
+        }
     }
 
     public Transform GetTransform()
@@ -73,5 +109,52 @@ public class ConnectionStick : MonoBehaviour
         spriteRenderer.color = initialColor;
         highlightObject.SetActive(false);
         defaultStickObject.SetActive(true);
+    }
+
+    public void SetCircleNodeHighlithStates()
+    {
+        if (isOccupied)
+        {          
+            if (rightCircleNode != null)
+            {
+                rightCircleNode.SetHighlightColor();
+                rightCircleNode.isOccupied = true;
+            }
+            if (leftCircleNode != null)
+            {
+                leftCircleNode.SetHighlightColor();
+                leftCircleNode.isOccupied = true;
+            }
+            if (upCircleNode != null)
+            {
+                upCircleNode.SetHighlightColor();
+                upCircleNode.isOccupied = true;
+            }
+            if (downCircleNode != null)
+            {
+                downCircleNode.SetHighlightColor();
+                downCircleNode.isOccupied = true;
+            }
+        }
+    }
+
+    public void CloseCircleNodeHighligth()
+    {
+        if (rightCircleNode != null)
+        {
+            rightCircleNode.SetInitialColor();
+        }
+        if (leftCircleNode != null)
+        {
+            leftCircleNode.SetInitialColor();
+        }
+        if (upCircleNode != null)
+        {
+            upCircleNode.SetInitialColor();
+        }
+        if (downCircleNode != null)
+        {
+            downCircleNode.SetInitialColor();
+        }
     }
 }

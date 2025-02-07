@@ -50,6 +50,7 @@ public class Stick : MonoBehaviour
         _transform.DOMove(targetPos, moveTime).SetEase(moveAC).OnComplete(()=> 
         {
             GridManager.Instance.CheckIfAnyCircleNodeIsCompleted();
+            ConnectionStickManager.Instance.UpdateConnectionStickOccupiedStates();
         });
     }
 

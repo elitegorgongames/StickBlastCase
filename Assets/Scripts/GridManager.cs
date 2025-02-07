@@ -68,6 +68,8 @@ public class GridManager : MonoBehaviour
                 upLookingStick.GetTransform().localScale = Vector3.one;
 
                 circleNodeList[i].upConnectionStick = upLookingStick;
+
+                upLookingStick.downCircleNode = circleNodeList[i];
             }
             else if (circleNodeList[i].coordinate.x == _rowCount - 1)
             {
@@ -75,6 +77,8 @@ public class GridManager : MonoBehaviour
                 rightLookingStick.GetTransform().localScale = Vector3.one;
 
                 circleNodeList[i].rightConnectionStick = rightLookingStick;
+
+                rightLookingStick.leftCircleNode = circleNodeList[i];
             }
             else
             {      
@@ -86,6 +90,11 @@ public class GridManager : MonoBehaviour
 
                 circleNodeList[i].upConnectionStick = upLookingStick;
                 circleNodeList[i].rightConnectionStick = rightLookingStick;
+
+                upLookingStick.downCircleNode = circleNodeList[i];
+                upLookingStick.upCircleNode = circleNodeList[i+6];
+                rightLookingStick.leftCircleNode = circleNodeList[i];
+                rightLookingStick.rightCircleNode = circleNodeList[i+1];
             }
         }
     }
@@ -478,6 +487,7 @@ public class GridManager : MonoBehaviour
 
                 if (rightNeighborCircleNode==null || upNeighborCircleNode==null || rightUpNeighborCircleNode==null)
                 {
+                    Debug.Log("this circle node is completed not" + circleOrder);
                     continue;
                 }
                 if (rightNeighborCircleNode.isOccupied && upNeighborCircleNode.isOccupied && rightUpNeighborCircleNode.isOccupied)
@@ -489,13 +499,13 @@ public class GridManager : MonoBehaviour
                 var upConnectionStick = circleNodeList[i].upConnectionStick;
                 var rightRightConnectionStick = rightNeighborCircleNode.upConnectionStick;
                 var upUpConnectionStick = upNeighborCircleNode.rightConnectionStick;
-
+                Debug.Log("this circle node is completed not" + circleOrder);
                 if (rightConnectionStick.isOccupied && upConnectionStick.isOccupied && rightRightConnectionStick.isOccupied && upUpConnectionStick.isOccupied)
                 {
                     sticksAreOccupied = true;             
                 }
             }
-
+            Debug.Log("this circle node is completed not" + circleOrder);
             if (circleNodesAreOccupied && sticksAreOccupied)
             {
                 Debug.Log("this circle node is completed " + circleOrder);
@@ -505,6 +515,13 @@ public class GridManager : MonoBehaviour
                 {
                     completedCircleNode.isCompleted = true;
                     completedCircleNode.SpawnCompletedObject();
+                }
+                else
+                {
+                    if (completedCircleNode.completedCircleNodeObject==null)
+                    {
+                        completedCircleNode.SpawnCompletedObject();
+                    }
                 }
             }
         }

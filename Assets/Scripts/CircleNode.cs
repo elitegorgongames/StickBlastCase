@@ -23,6 +23,9 @@ public class CircleNode : MonoBehaviour
     public CompletedCircleNodeObjectImage completedCircleNodeObject;
     public Transform completedCircleNodeObjectPrefabSpawnTransform;
 
+    public Transform transformToSendRay;
+    public LayerMask stickPartLayer;
+
     public bool isCompleted;
 
     Transform _transform;
@@ -38,6 +41,7 @@ public class CircleNode : MonoBehaviour
         var completedObject = Instantiate(completedCircleNodeObjectImagePrefab, _transform);
         completedObject.transform.position = completedCircleNodeObjectPrefabSpawnTransform.position;  
         completedCircleNodeObject = completedObject;
+        completedObject.belongedCircleNode = this;
     }
 
     public void CompleteToRight()
@@ -168,7 +172,7 @@ public class CircleNode : MonoBehaviour
 
 
     }
-
+    
     public void CompleteToUp()
     {
         CompleteCircleNode();
@@ -234,18 +238,41 @@ public class CircleNode : MonoBehaviour
     public void SetHighlightColor()
     {
         spriteRenderer.color = hightligthColor;
-        SetIsHighlithedState(true);
+        SetIsHighlithedState(true);    
     }
 
     public void SetInitialColor()
     {
+        if (isOccupied)
+        {
+            return;
+        }
+
         spriteRenderer.color = initialColor;
-        SetIsHighlithedState(false);
+   
+        SetIsHighlithedState(false);     
     }
 
     private void SetIsHighlithedState(bool state)
     {
         isHighlited = state;
         //Debug.Log("circle node highlith state " + state);
+    }
+
+    public void SendRayToFindStick()
+    {
+        float maxRange = 5f;
+        RaycastHit hit;
+
+        if (Physics.Raycast(transformToSendRay.position, -Vector3.forward, out hit, maxRange, stickPartLayer))
+        {
+            Debug.DrawRay(transformToSendRay.position, -Vector3.forward * maxRange, Color.blue, 10f);
+
+            if (hit.transform.gameObject.TryGetComponent(out StickPart stickPart))
+            {
+                SetHighlightColor();
+                isOccupied = true;
+            }
+        }   
     }
 }

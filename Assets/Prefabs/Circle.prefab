@@ -32,6 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 583472223573240046}
+  - {fileID: 4996342473003362154}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9053743144063043467
@@ -114,7 +115,42 @@ MonoBehaviour:
   completedCircleNodeObjectImagePrefab: {fileID: 4400876354251297149, guid: e8ff0003e1afa9a45879a55be4685d34, type: 3}
   completedCircleNodeObject: {fileID: 0}
   completedCircleNodeObjectPrefabSpawnTransform: {fileID: 583472223573240046}
+  transformToSendRay: {fileID: 4996342473003362154}
+  stickPartLayer:
+    serializedVersion: 2
+    m_Bits: 64
   isCompleted: 0
+--- !u!1 &3894282016144010680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4996342473003362154}
+  m_Layer: 0
+  m_Name: RayTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4996342473003362154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3894282016144010680}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5552732089154439870}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4656595191091570153
 GameObject:
   m_ObjectHideFlags: 0
