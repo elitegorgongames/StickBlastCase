@@ -51,6 +51,7 @@ public class Stick : MonoBehaviour
         {
             GridManager.Instance.CheckIfAnyCircleNodeIsCompleted();
             ConnectionStickManager.Instance.UpdateConnectionStickOccupiedStates();
+            StickSpawner.Instance.DecreaseCurrentStickCount();
         });
     }
 

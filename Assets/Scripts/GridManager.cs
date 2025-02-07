@@ -499,16 +499,16 @@ public class GridManager : MonoBehaviour
                 var upConnectionStick = circleNodeList[i].upConnectionStick;
                 var rightRightConnectionStick = rightNeighborCircleNode.upConnectionStick;
                 var upUpConnectionStick = upNeighborCircleNode.rightConnectionStick;
-                Debug.Log("this circle node is completed not" + circleOrder);
+                //Debug.Log("this circle node is completed not" + circleOrder);
                 if (rightConnectionStick.isOccupied && upConnectionStick.isOccupied && rightRightConnectionStick.isOccupied && upUpConnectionStick.isOccupied)
                 {
                     sticksAreOccupied = true;             
                 }
             }
-            Debug.Log("this circle node is completed not" + circleOrder);
+            //Debug.Log("this circle node is completed not" + circleOrder);
             if (circleNodesAreOccupied && sticksAreOccupied)
             {
-                Debug.Log("this circle node is completed " + circleOrder);
+                //Debug.Log("this circle node is completed " + circleOrder);
                 completedCircleNodeOrdersList.Add(circleOrder);
                 var completedCircleNode = GetCircleNodeByOrder(circleOrder);
                 if (!completedCircleNode.isCompleted)

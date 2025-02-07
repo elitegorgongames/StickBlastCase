@@ -12,6 +12,8 @@ public class StickSpawner : MonoBehaviour
     public List<Transform> stickSpawnPointsList;
     public Transform initialStickSpawnPoint;
 
+    public int currentStickCount;
+
 
     private void Awake()
     {
@@ -53,6 +55,18 @@ public class StickSpawner : MonoBehaviour
             stickToSpawn.MoveToTarget(stickSpawnPointsList[i].position);
 
             yield return new WaitForSeconds(delayTime);
-        }       
+        }
+
+        currentStickCount = spawnStickCount;
+    }
+
+    public void DecreaseCurrentStickCount()
+    {
+        currentStickCount--;
+
+        if (currentStickCount==0)
+        {
+            StartCoroutine(SpawnSticksWithDelay());
+        }
     }
 }
