@@ -12,6 +12,8 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
 
     public CircleNode belongedCircleNode;
 
+    public Diamond diamondPrefab;
+
     BoxCollider _collider;
 
     Transform _transform;
@@ -55,6 +57,9 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
         {
             materialToDissolve.SetFloat("_Fade", dissolveValue);    
         }).OnComplete(DestroyObject);
+
+        var diamond = Instantiate(diamondPrefab);
+        diamond.transform.position = _transform.position;
     }
 
     private void DestroyObject()

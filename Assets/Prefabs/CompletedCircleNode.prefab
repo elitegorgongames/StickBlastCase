@@ -130,6 +130,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  belongedCircleNode: {fileID: 0}
+  diamondPrefab: {fileID: 8661171323513610513, guid: f521dc99e961aa34899e24645188630e, type: 3}
 --- !u!65 &721939446934391749
 BoxCollider:
   m_ObjectHideFlags: 0

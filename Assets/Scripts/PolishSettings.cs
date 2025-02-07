@@ -18,6 +18,14 @@ public class PolishSettings : MonoBehaviour
     [Header("Dissolve")]
     public Material dissolveMaterial;
 
+    [Header("DiamondSettings")]
+    public float diamondMoveSpeed;
+    public float diamondMoveSpeedInterval;
+    public float diamondScaleTime;
+    public Vector3 diamondTargetScale;
+    public AnimationCurve diamondMoveAC;
+    public Transform diamondTargetTransform;
+
 
     private void Awake()
     {

@@ -34,6 +34,20 @@ public class Stick : MonoBehaviour
         var moveSpeed = PolishSettings.Instance.moveToStartPointSpeed;
         var moveTime = distance/moveSpeed;
 
+        var pos = _transform.position;
+  
+
+        if (stickType==StickType.Vertical)
+        {
+            pos.y = -2.9f;
+         
+            target.y = -2.9f;
+        }
+        else
+        {
+            pos.y = target.y;
+        }
+        _transform.position = pos;
         _transform.DOMove(target, moveTime).OnComplete(SetStartPoint);
     }
 
@@ -51,7 +65,7 @@ public class Stick : MonoBehaviour
         {
             GridManager.Instance.CheckIfAnyCircleNodeIsCompleted();
             ConnectionStickManager.Instance.UpdateConnectionStickOccupiedStates();          
-            StickSpawner.Instance.DecreaseCurrentStickCount();
+            StickSpawner.Instance.DecreaseCurrentStickCount(this);
         });
     }
 

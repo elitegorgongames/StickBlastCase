@@ -12,6 +12,8 @@ public class StickSpawner : MonoBehaviour
     public List<Transform> stickSpawnPointsList;
     public Transform initialStickSpawnPoint;
 
+    public List<Stick> currentStickList;
+
     public int currentStickCount;
 
 
@@ -47,6 +49,7 @@ public class StickSpawner : MonoBehaviour
             {
                 int stickOrder = Random.Range(0, stickPrefabsList.Count);
                 stickToSpawn = Instantiate(stickPrefabsList[stickOrder], initialStickSpawnPoint.position, Quaternion.identity);
+                currentStickList.Add(stickToSpawn);
 
                 var circleNodesList = GridManager.Instance.GetAllCircleNodes();
                 foreach (var cNode in circleNodesList)
@@ -63,6 +66,7 @@ public class StickSpawner : MonoBehaviour
                 if (!fitFound)
                 {
                     Destroy(stickToSpawn.gameObject);
+                    currentStickList.Remove(stickToSpawn);
                     yield return null; // Bir sonraki frame'de tekrar dene (alternatif olarak küçük bir gecikme de ekleyebilirsin)
                 }
             }
@@ -75,9 +79,32 @@ public class StickSpawner : MonoBehaviour
         currentStickCount = spawnStickCount;
     }
 
-    public void DecreaseCurrentStickCount()
+    public void DecreaseCurrentStickCount(Stick stickToRemove)
     {
         currentStickCount--;
+        bool fitFound = false;
+        currentStickList.Remove(stickToRemove);
+        if (currentStickCount > 0)
+        {
+            var circleNodesList = GridManager.Instance.GetAllCircleNodes();
+            foreach (var stick in currentStickList)
+            {
+                foreach (var cNode in circleNodesList)
+                {
+                    if (GridManager.Instance.IsStickFitIntoTheCircleNode(stick, cNode))
+                    {
+                        Debug.Log("Stick fits for circle node: " + cNode.coordinate);
+                        fitFound = true;
+                        break;
+                    }
+                }
+            }
+            if (!fitFound)
+            {
+                EventManager.Instance.OnFailEvent();
+            }
+        }
+
 
         if (currentStickCount==0)
         {

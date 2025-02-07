@@ -151,7 +151,7 @@ public class CircleNode : MonoBehaviour
         spriteRenderer.color = initialColor;
    
         SetIsHighlithedState(false);
-        Debug.Log("circle node initial state");
+        //Debug.Log("circle node initial state");
     }
 
     private void SetIsHighlithedState(bool state)
