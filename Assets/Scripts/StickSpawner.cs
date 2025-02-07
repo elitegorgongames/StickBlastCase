@@ -39,21 +39,36 @@ public class StickSpawner : MonoBehaviour
     {
         for (int i = 0; i < spawnStickCount; i++)
         {
-            var stickOrder = Random.Range(0, stickPrefabsList.Count);
+            Stick stickToSpawn = null;
+            bool fitFound = false;
 
-            var stickToSpawn = Instantiate(stickPrefabsList[stickOrder], initialStickSpawnPoint.position,Quaternion.identity);
-
-            var circleNodesList = GridManager.Instance.GetAllCircleNodes();
-            foreach (var cNode in circleNodesList)
+            // Uyan bir stick bulunana kadar döngüye gir
+            while (!fitFound)
             {
-                if (GridManager.Instance.IsStickFitIntoTheCircleNode(stickToSpawn, cNode))
+                int stickOrder = Random.Range(0, stickPrefabsList.Count);
+                stickToSpawn = Instantiate(stickPrefabsList[stickOrder], initialStickSpawnPoint.position, Quaternion.identity);
+
+                var circleNodesList = GridManager.Instance.GetAllCircleNodes();
+                foreach (var cNode in circleNodesList)
                 {
-                    Debug.Log("stick is fit for cNode " + cNode.coordinate);
-                    break;
+                    if (GridManager.Instance.IsStickFitIntoTheCircleNode(stickToSpawn, cNode))
+                    {
+                        Debug.Log("Stick fits for circle node: " + cNode.coordinate);
+                        fitFound = true;
+                        break;
+                    }
+                }
+
+                // Eðer uygun bir node bulunamadýysa, spawn edilen stick'i yok et ve yeniden dene
+                if (!fitFound)
+                {
+                    Destroy(stickToSpawn.gameObject);
+                    yield return null; // Bir sonraki frame'de tekrar dene (alternatif olarak küçük bir gecikme de ekleyebilirsin)
                 }
             }
-            stickToSpawn.MoveToTarget(stickSpawnPointsList[i].position);
 
+            // Uyan stick bulundu, hedef konuma taþýyoruz
+            stickToSpawn.MoveToTarget(stickSpawnPointsList[i].position);
             yield return new WaitForSeconds(delayTime);
         }
 

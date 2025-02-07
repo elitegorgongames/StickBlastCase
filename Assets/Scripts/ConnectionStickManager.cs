@@ -42,12 +42,10 @@ public class ConnectionStickManager : MonoBehaviour
         foreach (var cStick in connectionStickList)
         {
             cStick.SetOccupiedState();
-        }
-
-        CheckCompletedObjects();
+        }       
     }
 
-    public void CheckCompletedObjects()
+    public void CheckCompletedCircleNodes()
     {
         foreach (var cObject in completedObjectsList)
         {
@@ -65,6 +63,10 @@ public class ConnectionStickManager : MonoBehaviour
                 r.SetHighlightColor();
                 u.SetHighlightColor();
                 up.SetHighlightColor();
+
+                r.isOccupied = true;
+                u.isOccupied = true;
+                up.isOccupied = true;
             }
         }
     }

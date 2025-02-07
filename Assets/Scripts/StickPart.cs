@@ -39,9 +39,12 @@ public class StickPart : MonoBehaviour
             materialToDissolve.SetFloat("_Fade", dissolveValue);
         }).OnComplete(() =>
         {
-            DestroyObject();
-            ConnectionStickManager.Instance.UpdateConnectionStickHighlightStates();  
+            ConnectionStickManager.Instance.CheckCompletedCircleNodes();
+            DestroyObject();           
         });
+        yield return new WaitForSeconds(.1f);
+        ConnectionStickManager.Instance.UpdateConnectionStickHighlightStates();
+       
     }
     public void Dissolve()
     {
