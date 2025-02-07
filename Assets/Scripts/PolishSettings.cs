@@ -15,6 +15,11 @@ public class PolishSettings : MonoBehaviour
     public float stickPlacementTime;
     public AnimationCurve stickPlacementAC;
 
+    [Header("Stick part settle movement")]
+    public float stickSettleScaleMultiplier;
+    public float stickSettleScaleTime;
+    public AnimationCurve stickSettleScaleAC;
+
     [Header("Dissolve")]
     public Material dissolveMaterial;
 

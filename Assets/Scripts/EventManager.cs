@@ -8,6 +8,7 @@ public class EventManager : MonoBehaviour
 
     public event Action FailEvent;
     public event Action DiamondMovementCompleted;
+    public event Action RestartEvent;
 
     private void Awake()
     {
@@ -23,5 +24,10 @@ public class EventManager : MonoBehaviour
     public void OnDiamondMovementCompleted()
     {
         DiamondMovementCompleted?.Invoke();
+    }
+
+    public void OnRestartEvent()
+    {
+        RestartEvent?.Invoke();
     }
 }

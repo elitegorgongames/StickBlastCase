@@ -104,6 +104,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   dissolveMaterial: {fileID: 0}
   collideWithCompletedObject: 0
+  isDissolving: 0
 --- !u!65 &2141772183486680332
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -229,6 +230,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   dissolveMaterial: {fileID: 0}
   collideWithCompletedObject: 0
+  isDissolving: 0
 --- !u!65 &2889039931010963262
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -335,6 +337,10 @@ MonoBehaviour:
   stickType: 3
   startPoint: {x: 0, y: 0, z: 0}
   calculationTransformStartPoint: {fileID: 684898250537377870}
+  stickPartsList:
+  - {fileID: 4265513758530083413}
+  - {fileID: 4537198136088314984}
+  - {fileID: 4878141722051438237}
 --- !u!65 &1981335788374718832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -460,6 +466,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   dissolveMaterial: {fileID: 0}
   collideWithCompletedObject: 0
+  isDissolving: 0
 --- !u!65 &6651133796059616188
 BoxCollider:
   m_ObjectHideFlags: 0

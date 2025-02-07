@@ -28,9 +28,15 @@ public class GridManager : MonoBehaviour
 
     void Start()
     {
+        EventManager.Instance.RestartEvent += RestartEvent;
         GenerateGrid();
         GenerateBars();
         CenterCamera();      
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.RestartEvent -= RestartEvent;
     }
 
     void GenerateGrid()
@@ -236,6 +242,10 @@ public class GridManager : MonoBehaviour
                     }
                 }
             }
+            if (stick.stickType == StickType.MirroredLType)
+            {
+
+            }
         }
     }
 
@@ -372,9 +382,13 @@ public class GridManager : MonoBehaviour
                 return;
             }
         }
+        if (currentSelectedStick.stickType == StickType.MirroredLType)
+        {
+
+        }
 
 
-        if (connectionSticksToPlaceList.Count==0)
+        if (connectionSticksToPlaceList.Count == 0)
         {
             referenceCircleNode = null;
             return;
@@ -673,6 +687,17 @@ public class GridManager : MonoBehaviour
             float gridHeight = (_rowCount - 1) * _spacing;
             Vector3 gridCenter = new Vector3(gridWidth / 2, gridHeight / 2, -10);
             mainCamera.transform.position = gridCenter;
+        }
+    }
+
+    private void RestartEvent()
+    {
+        for (int i = 0; i < GetAllCircleNodes().Count; i++)
+        {
+            GetAllCircleNodes()[i].isCompleted = false;
+            GetAllCircleNodes()[i].isOccupied = false;
+            GetAllCircleNodes()[i].isHighlited = false;
+            GetAllCircleNodes()[i].SetInitialColor();
         }
     }
 }

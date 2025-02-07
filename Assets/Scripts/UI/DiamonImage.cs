@@ -25,11 +25,15 @@ public class DiamonImage : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.DiamondMovementCompleted += Scale;
+        EventManager.Instance.RestartEvent += RestartEvent;
+        currentDiamondAmount=0;
+        DiamondAmountChanged();
     }
 
     private void OnDestroy()
     {
         EventManager.Instance.DiamondMovementCompleted -= Scale;
+        EventManager.Instance.RestartEvent -= RestartEvent;
     }
 
 
@@ -55,5 +59,11 @@ public class DiamonImage : MonoBehaviour
     private void DiamondAmountChanged()
     {
         diamondAmount.text = currentDiamondAmount.ToString();
+    }
+
+    private void RestartEvent()
+    {
+        currentDiamondAmount = 0;
+        DiamondAmountChanged();
     }
 }

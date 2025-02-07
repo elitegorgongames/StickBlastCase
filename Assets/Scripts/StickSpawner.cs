@@ -25,7 +25,13 @@ public class StickSpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        EventManager.Instance.RestartEvent += RestartEvent;
         StartCoroutine(SpawnSticksWithDelay());
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.RestartEvent -= RestartEvent;
     }
 
     // Update is called once per frame
@@ -110,5 +116,10 @@ public class StickSpawner : MonoBehaviour
         {
             StartCoroutine(SpawnSticksWithDelay());
         }
+    }
+
+    private void RestartEvent()
+    {
+        StartCoroutine(SpawnSticksWithDelay());
     }
 }

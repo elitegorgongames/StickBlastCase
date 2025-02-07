@@ -11,9 +11,27 @@ public class StickPart : MonoBehaviour
     public bool collideWithCompletedObject;
     public bool isDissolving;
 
+
+    Vector3 _initialScale;
+    Transform _transform;
+
+
     private void Awake()
     {
+        _transform = transform;
+        _initialScale = _transform.localScale;
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void SettleMovement()
+    {       
+        _transform.DOScale(_initialScale * PolishSettings.Instance.stickSettleScaleMultiplier, PolishSettings.Instance.stickSettleScaleTime).SetEase(PolishSettings.Instance.stickSettleScaleAC)
+            .OnComplete(BackToInitialScale);
+    }
+
+    private void BackToInitialScale()
+    {
+        _transform.DOScale(_initialScale, PolishSettings.Instance.stickSettleScaleTime).SetEase(PolishSettings.Instance.stickSettleScaleAC);
     }
 
     IEnumerator DissolveWithDelay()

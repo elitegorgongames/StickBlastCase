@@ -36,7 +36,13 @@ public class ConnectionStick : MonoBehaviour
 
     private void Start()
     {
+        EventManager.Instance.RestartEvent += RestartEvent;
         ConnectionStickManager.Instance.AddToConnectionStickList(this);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.RestartEvent -= RestartEvent;
     }
 
     public void SpawnVerticalStick()
@@ -156,5 +162,11 @@ public class ConnectionStick : MonoBehaviour
         {
             downCircleNode.SetInitialColor();
         }
+    }
+
+    private void RestartEvent()
+    {
+        isOccupied = false;
+        SetInitialColor();
     }
 }

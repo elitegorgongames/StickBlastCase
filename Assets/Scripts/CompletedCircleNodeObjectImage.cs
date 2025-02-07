@@ -27,6 +27,7 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        EventManager.Instance.RestartEvent += DestroyObject;
         ScaleUp();
 
         ConnectionStickManager.Instance.completedObjectsList.Add(this);
@@ -34,6 +35,7 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
 
     private void OnDestroy()
     {
+        EventManager.Instance.RestartEvent -= DestroyObject;
         ConnectionStickManager.Instance.completedObjectsList.Remove(this);
     }
 

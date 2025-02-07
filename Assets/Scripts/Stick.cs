@@ -13,6 +13,8 @@ public class Stick : MonoBehaviour
     public Transform calculationTransformStartPoint;
     private Transform _transform;
 
+
+    public List<StickPart> stickPartsList;
     
 
     private void Awake()
@@ -24,9 +26,14 @@ public class Stick : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        EventManager.Instance.RestartEvent += RestartEvent;
         SetStartPoint();
     }
 
+    private void OnDestroy()
+    {
+        EventManager.Instance.RestartEvent -= RestartEvent;
+    }
 
     public void MoveToTarget(Vector3 target)
     {
@@ -63,10 +70,19 @@ public class Stick : MonoBehaviour
 
         _transform.DOMove(targetPos, moveTime).SetEase(moveAC).OnComplete(()=> 
         {
+            StickPartSettleMovement();
             GridManager.Instance.CheckIfAnyCircleNodeIsCompleted();
             ConnectionStickManager.Instance.UpdateConnectionStickOccupiedStates();          
             StickSpawner.Instance.DecreaseCurrentStickCount(this);
         });
+    }
+
+    private void StickPartSettleMovement()
+    {
+        foreach (var stickPart in stickPartsList)
+        {
+            stickPart.SettleMovement();
+        }
     }
 
     public void BackToStartPoint()
@@ -86,6 +102,11 @@ public class Stick : MonoBehaviour
     {
         return calculationTransformStartPoint;
     }
+
+    private void RestartEvent()
+    {
+        Destroy(gameObject);
+    }
 }
 
 
@@ -95,10 +116,10 @@ public enum StickType
     Horizontal,
     LType,
     UType,
+    MirroredLType,
+    DownwardsUType,
     DoubleLengthVertical,
     DoubleLengthHorizontal,     
     DownwardsLType,
-    MirroredLType,
-    DoubleLengthLType,
-    DownwardsUType
+    DoubleLengthLType 
 };
