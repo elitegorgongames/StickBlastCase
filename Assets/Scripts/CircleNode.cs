@@ -46,122 +46,17 @@ public class CircleNode : MonoBehaviour
 
     public void CompleteToRight()
     {
-        if (completedCircleNodeObject != null)
-        {
-            completedCircleNodeObject.Dissolve();
-        }
-
+        CompleteCircleNode();
         var upNeighborCNode = GridManager.Instance.FindUpNeighborOfCircleNode(this);
-        var downNeighbor = GridManager.Instance.FindDownNeighborOfCircleNode(this);
+        upNeighborCNode.isOccupied = false;
+        upNeighborCNode.isCompleted = false;
+        upNeighborCNode.SetInitialColor();
 
-        if (downNeighbor!=null)
-        {
-            if (downNeighbor.upConnectionStick.isOccupied)
-            {
-
-            }
-            else
-            {
-                isOccupied = false;
-                isCompleted = false;
-                SetInitialColor();
-            }
-        }
-
-
-        if (upConnectionStick != null)
-        {
-            upConnectionStick.isOccupied = false;
-        }
         if (rightConnectionStick != null)
         {
-            rightConnectionStick.isOccupied = false;
+            rightConnectionStick.SetInitialColor();
+            rightConnectionStick.SendRayToFindStick();
         }
- 
-    
-        bool topEdge = false;
-        bool downEdge = false;
-        if (circleNodeOrder>=24)
-        {
-            topEdge = true;
-        }
-        if (circleNodeOrder>5)
-        {
-            downEdge = false;
-        }
-
-        if (!topEdge)
-        {
-            if (upNeighborCNode.isCompleted)
-            {
-
-            }
-            else
-            {
-                if (upNeighborCNode.upConnectionStick.isOccupied)
-                {
-                    
-                }
-                else
-                {
-                    upNeighborCNode.isOccupied = false;
-                    upNeighborCNode.isCompleted = false;
-                    upNeighborCNode.SetInitialColor();
-                }
-            }
-        }
-        else
-        {
-            upNeighborCNode.isOccupied = false;
-            upNeighborCNode.isCompleted = false;
-            upNeighborCNode.SetInitialColor();
-        }
-
-        var upRightConnectionStick = upNeighborCNode.rightConnectionStick;
-
-        if (upNeighborCNode.isCompleted)
-        {
-
-        }
-        else
-        {
-            if (upRightConnectionStick != null)
-            {
-                upRightConnectionStick.SetInitialColor();
-                upRightConnectionStick.SendRayToFindStick();
-            }
-        }
-
-        if (!downEdge)
-        {
-        
-            if (downNeighbor.isCompleted)
-            {
-                isOccupied = true;
-                SetHighlightColor();
-                var rightNeighborCNode = GridManager.Instance.FindRightNeighborOfCircleNode(this);
-                rightNeighborCNode.isOccupied = true;              
-                rightNeighborCNode.SetHighlightColor();
-            }
-            else
-            {
-                if (downNeighbor.upConnectionStick.isOccupied)
-                {
-                    isCompleted = true;
-                    SetHighlightColor();
-                }
-                else
-                {
-                    if (rightConnectionStick != null)
-                    {
-                        rightConnectionStick.SetInitialColor();
-                        rightConnectionStick.SendRayToFindStick();
-                    }
-                }
-      
-            }
-        }
-
 
         if (upConnectionStick != null)
         {
@@ -169,7 +64,12 @@ public class CircleNode : MonoBehaviour
             upConnectionStick.SendRayToFindStick();
         }
 
-
+        var upRightConnectionStick = upNeighborCNode.rightConnectionStick;
+        if (upRightConnectionStick != null)
+        {
+            upRightConnectionStick.SetInitialColor();
+            upRightConnectionStick.SendRayToFindStick();
+        }
 
     }
     
