@@ -1,0 +1,8 @@
+day1- drawing images and setting some basic grid mechanics
+day2- complete row and column states
+day3- bug solving about highlighting circles and sticks
+day4- more bug solving and polishing
+
+most challengic thing for me;
+the calculations when a connection point is in a completed situation multiple times by 
+its surrounding neighboring connection points and one of these completed spots is cleared.
