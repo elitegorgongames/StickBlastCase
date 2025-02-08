@@ -62,7 +62,7 @@ public class StickSpawner : MonoBehaviour
                 {
                     if (GridManager.Instance.IsStickFitIntoTheCircleNode(stickToSpawn, cNode))
                     {
-                        Debug.Log("Stick fits for circle node: " + cNode.coordinate);
+                        //Debug.Log("Stick fits for circle node: " + cNode.coordinate);
                         fitFound = true;
                         break;
                     }
@@ -100,7 +100,7 @@ public class StickSpawner : MonoBehaviour
                 {
                     if (GridManager.Instance.IsStickFitIntoTheCircleNode(stick, cNode))
                     {
-                        Debug.Log("Stick fits for circle node: " + cNode.coordinate);
+                        //Debug.Log("Stick fits for circle node: " + cNode.coordinate);
                         fitFound = true;
                         break;
                     }

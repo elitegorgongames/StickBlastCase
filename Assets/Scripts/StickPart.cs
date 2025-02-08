@@ -44,7 +44,7 @@ public class StickPart : MonoBehaviour
             yield break;
         }
       
-        Debug.Log("dissolve stick part");
+        //Debug.Log("dissolve stick part");
         var materialToDissolve = Instantiate(PolishSettings.Instance.dissolveMaterial);
         spriteRenderer.material = materialToDissolve;
         float dissolveValue = 1;

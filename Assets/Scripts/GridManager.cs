@@ -595,7 +595,7 @@ public class GridManager : MonoBehaviour
 
                 if (rightNeighborCircleNode==null || upNeighborCircleNode==null || rightUpNeighborCircleNode==null)
                 {
-                    Debug.Log("this circle node is completed not" + circleOrder);
+                    //Debug.Log("this circle node is completed not" + circleOrder);
                     continue;
                 }
                 if (rightNeighborCircleNode.isOccupied && upNeighborCircleNode.isOccupied && rightUpNeighborCircleNode.isOccupied)
@@ -638,7 +638,7 @@ public class GridManager : MonoBehaviour
 
         foreach (var item in completedCircleNodeOrdersList)
         {
-            Debug.Log("completed list items " + item);
+            //Debug.Log("completed list items " + item);
         }
         var rowListsToCheck = new List<List<int>>();
         var columnListsToCheck = new List<List<int>>();
