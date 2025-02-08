@@ -7,6 +7,7 @@ public class MainCanvas : MonoBehaviour
 {
 
     public GameObject failPanelObject;
+    public GameObject successPanelObject;
 
     public List<GameObject> failedLettersList;
     public List<Vector3> failedLettersTargetPointList;
@@ -19,7 +20,9 @@ public class MainCanvas : MonoBehaviour
     void Start()
     {
         EventManager.Instance.FailEvent += EnableFailPanel;
+        EventManager.Instance.SuccessEvent += EnableSuccessPanel;
         EventManager.Instance.RestartEvent += DisableFailPanel;
+        EventManager.Instance.RestartEvent += DisableSuccessPanel;
 
         DisableFailPanel();
     }
@@ -27,7 +30,9 @@ public class MainCanvas : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.Instance.FailEvent -= EnableFailPanel;
+        EventManager.Instance.SuccessEvent -= EnableSuccessPanel;
         EventManager.Instance.RestartEvent -= DisableFailPanel;
+        EventManager.Instance.RestartEvent -= DisableSuccessPanel;
     }
 
     private void EnableFailPanel()
@@ -45,6 +50,17 @@ public class MainCanvas : MonoBehaviour
         {
             letter.transform.position = failLettersInitialPoint.position;
         }
+    }
+
+    private void EnableSuccessPanel()
+    {
+        successPanelObject.SetActive(true);
+        SoundManager.Instance.PlaySuccessAudioClip();
+    }
+
+    private void DisableSuccessPanel()
+    {
+        successPanelObject.SetActive(false);
     }
 
     public void MoveFailLetters() 
@@ -65,6 +81,7 @@ public class MainCanvas : MonoBehaviour
 
     public void RestartButton()
     {
+        SoundManager.Instance.PlayUIAudioClip();
         EventManager.Instance.OnRestartEvent();
     }
 }

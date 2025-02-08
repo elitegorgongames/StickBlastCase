@@ -29,6 +29,11 @@ public class SliderImage : MonoBehaviour
     public void SetSliderValue()
     {
         slider.value =(currentPoint / targetPoint)*targetPoint;
+
+        if (currentPoint>=targetPoint)
+        {
+            EventManager.Instance.OnSuccessEvent();
+        }
     }
 
     private void DiamondMovementCompleted()

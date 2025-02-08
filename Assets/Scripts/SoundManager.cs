@@ -25,6 +25,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip _spawnStickSound;
     [SerializeField] private AudioSource _spawnStickAudioSource;
 
+    [SerializeField] private AudioClip _uIAudioClip;
+    [SerializeField] private AudioClip _loseAudioClip;
+    [SerializeField] private AudioClip _successAudioClip;
+
 
     private void Awake()
     {
@@ -65,5 +69,20 @@ public class SoundManager : MonoBehaviour
     public void PlaySpawnStickClip()
     {
         _spawnStickAudioSource.PlayOneShot(_spawnStickSound);
+    }
+
+    public void PlayUIAudioClip()
+    {
+        _settleStickAudioSource.PlayOneShot(_uIAudioClip);
+    }
+
+    public void PlayLoseAudioClip()
+    {
+        _settleStickAudioSource.PlayOneShot(_loseAudioClip);
+    }
+
+    public void PlaySuccessAudioClip()
+    {
+        _settleStickAudioSource.PlayOneShot(_successAudioClip);
     }
 }
