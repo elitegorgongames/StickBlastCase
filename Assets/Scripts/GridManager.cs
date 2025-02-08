@@ -244,7 +244,58 @@ public class GridManager : MonoBehaviour
             }
             if (stick.stickType == StickType.MirroredLType)
             {
+                if (currentClosestCircleNodeToSelectedStick.rightConnectionStick != null && currentClosestCircleNodeToSelectedStick.upConnectionStick != null)
+                {
+                    var rightNeighborCircleNode = FindRightNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+                    if (rightNeighborCircleNode!=null)
+                    {
+                        currentClosestCircleNodeToSelectedStick.SetHighlightColor();
+                        rightNeighborCircleNode.SetHighlightColor();
 
+                        var rightUpCirlceNode = FindRightUpCircleNode(currentClosestCircleNodeToSelectedStick);
+                        rightUpCirlceNode.SetHighlightColor();
+
+                        highlitghedCicrleNodesList.Add(currentClosestCircleNodeToSelectedStick);
+                        highlitghedCicrleNodesList.Add(rightNeighborCircleNode);
+                        highlitghedCicrleNodesList.Add(rightUpCirlceNode);
+
+                        currentClosestCircleNodeToSelectedStick.rightConnectionStick.SetHighlightColor();
+                        rightNeighborCircleNode.upConnectionStick.SetHighlightColor();
+
+                        connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.rightConnectionStick);
+                        connectionSticksToPlaceList.Add(rightNeighborCircleNode.upConnectionStick);
+
+                        enableToPlace = true;
+                    }
+                }
+            }
+            if (stick.stickType == StickType.DownwardsUType)
+            {
+                var rightUpCircle = FindRightUpCircleNode(currentClosestCircleNodeToSelectedStick);
+                var rightCircle = FindRightNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+                var upCircle = FindUpNeighborOfCircleNode(currentClosestCircleNodeToSelectedStick);
+                var rightUpNeighborCircleNode = FindRightUpCircleNode(currentClosestCircleNodeToSelectedStick);
+
+                if (currentClosestCircleNodeToSelectedStick.upConnectionStick != null && rightUpCircle!=null)
+                {
+                    currentClosestCircleNodeToSelectedStick.SetHighlightColor();
+                    rightCircle.SetHighlightColor();
+                    upCircle.SetHighlightColor();
+                    rightUpNeighborCircleNode.SetHighlightColor();
+
+                    highlitghedCicrleNodesList.Add(currentClosestCircleNodeToSelectedStick);
+                    highlitghedCicrleNodesList.Add(rightCircle);
+                    highlitghedCicrleNodesList.Add(upCircle);
+                    highlitghedCicrleNodesList.Add(rightUpNeighborCircleNode);
+
+                    currentClosestCircleNodeToSelectedStick.upConnectionStick.SetHighlightColor();
+                    upCircle.rightConnectionStick.SetHighlightColor();
+                    rightCircle.upConnectionStick.SetHighlightColor();
+
+                    connectionSticksToPlaceList.Add(currentClosestCircleNodeToSelectedStick.upConnectionStick);
+                    connectionSticksToPlaceList.Add(upCircle.rightConnectionStick);
+                    connectionSticksToPlaceList.Add(rightCircle.upConnectionStick);
+                }
             }
         }
     }
@@ -298,6 +349,49 @@ public class GridManager : MonoBehaviour
                 return false;
             }
         }
+        if (stickType == StickType.MirroredLType)
+        {
+            //right and righup
+            var rightNeighborOfClosestCircleNode = FindRightNeighborOfCircleNode(closestCircleNode);
+            var rightUpNeighbor = FindRightUpCircleNode(closestCircleNode);
+            if (rightNeighborOfClosestCircleNode==null || rightUpNeighbor==null)
+            {
+                return false;
+            }
+            if (closestCircleNode.rightConnectionStick == null || rightNeighborOfClosestCircleNode.upConnectionStick == null)
+            {
+                return false;
+            }
+            if (closestCircleNode.rightConnectionStick.isOccupied || rightNeighborOfClosestCircleNode.upConnectionStick.isOccupied)
+            {
+                return false;
+            }
+        }
+        if (stickType == StickType.DownwardsUType)
+        {
+            //up, right and rightup
+            var upNeighborOfClosestCircle = FindUpNeighborOfCircleNode(closestCircleNode);
+            if (upNeighborOfClosestCircle==null)
+            {
+                return false;
+            }
+            var rightUpNeighborOfClosestCircle = FindRightUpCircleNode(closestCircleNode);
+            if (rightUpNeighborOfClosestCircle == null)
+            {
+                return false;
+            }
+            var rightNeighborOfClosestCircle = FindRightNeighborOfCircleNode(closestCircleNode);
+            if (rightNeighborOfClosestCircle==null)
+            {
+                return false;
+            }
+
+            if (closestCircleNode.upConnectionStick.isOccupied || rightNeighborOfClosestCircle.upConnectionStick.isOccupied || upNeighborOfClosestCircle.rightConnectionStick.isOccupied)
+            {
+                return false;
+            }
+        }
+
 
         return true;   
     }

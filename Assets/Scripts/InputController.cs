@@ -16,35 +16,25 @@ public class InputController : MonoBehaviour
     private Vector3 _initialStickPosition;
     private bool _isDragging = false;
 
-    public SpriteRenderer spriteRenderer;
-    
-    public void DissolveBackground()
-    {
-        var material = spriteRenderer.material;
-        float dissolveValue = 1;
 
-     
+    public bool gameIsOn;
 
-
-        Debug.Log("dissolve companion hero" + gameObject.name);
-        DOTween.To(() => dissolveValue, x => dissolveValue = x, 0, 1.5f)
-        .OnUpdate(() =>
-        {
-            material.SetFloat("_Fade", dissolveValue);
-
-            Debug.Log("dissolve companion hero" + gameObject.name);
-        });
-    }
 
     private void Awake()
     {
         Instance = this;
         _mainCamera = Camera.main;
+        gameIsOn = true;
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // Sol týklama -> Çubuðu seç
+        if (!gameIsOn)
+        {
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0)) 
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 100f))
@@ -55,26 +45,37 @@ public class InputController : MonoBehaviour
                     {
                         return;
                     }
+                    if (!stick.isPickable)
+                    {
+                        return;
+                    }
 
                     if (!stick.isPicked)
                     {
                         stick.isPicked = true;
                         _currentSelectedStick = stick;
-                        _initialMousePosition = Input.mousePosition; // Mouse'un baþlangýç pozisyonunu kaydet
-                        _initialStickPosition = _currentSelectedStick.transform.position; // Çubuðun baþlangýç pozisyonunu kaydet
+                        _initialMousePosition = Input.mousePosition; 
+                        _initialStickPosition = _currentSelectedStick.transform.position; 
                         _isDragging = true;
+
+                        Vector3 mouseDelta = Input.mousePosition - _initialMousePosition;
+
+                        Vector3 worldDelta = _mainCamera.ScreenToWorldPoint(new Vector3(mouseDelta.x, mouseDelta.y, 10f))
+                                           - _mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 10f));
+                        Vector3 newPosition = _initialStickPosition + new Vector3(worldDelta.x, worldDelta.y + _movementOffset, 0);
+                        _currentSelectedStick.FirstPickMovement(newPosition);
                     }
                 }
             }
         }
 
-        if (_isDragging && Input.GetMouseButton(0) && _currentSelectedStick != null) // Mouse basýlýyken -> Hareket ettir
+        if (_isDragging && Input.GetMouseButton(0) && _currentSelectedStick != null) 
         {
             MoveSelectedStick();
             GridManager.Instance.FindClosestCircleNodeToSelectedStick(_currentSelectedStick);
         }
 
-        if (Input.GetMouseButtonUp(0) && _currentSelectedStick != null) // Mouse býrakýldýðýnda -> Çubuðu serbest býrak
+        if (Input.GetMouseButtonUp(0) && _currentSelectedStick != null) 
         {
             GridManager.Instance.SetConnectionSticksOccupied(out CircleNode referenceCircleNode, out List<CircleNode> highlightedCircleNodeList);
             if (referenceCircleNode!=null)
@@ -99,15 +100,18 @@ public class InputController : MonoBehaviour
 
     void MoveSelectedStick()
     {
+        if (_currentSelectedStick.firstPick)
+        {
+            return;
+        }
+
         if (_currentSelectedStick == null) return;
 
-        Vector3 mouseDelta = Input.mousePosition - _initialMousePosition; // Mouse'un hareket miktarýný hesapla
-
-        // Mouse hareketini dünya koordinatlarýna çevir
+        Vector3 mouseDelta = Input.mousePosition - _initialMousePosition; 
+       
         Vector3 worldDelta = _mainCamera.ScreenToWorldPoint(new Vector3(mouseDelta.x, mouseDelta.y, 10f))
                            - _mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 10f));
-
-        // Yeni pozisyon: X ve Y ekseninde hareket etsin, Z ekseni sabit kalsýn
+       
         Vector3 newPosition = _initialStickPosition + new Vector3(worldDelta.x, worldDelta.y + _movementOffset, 0);
         _currentSelectedStick.transform.position = newPosition;
     }   

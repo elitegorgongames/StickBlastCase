@@ -178,8 +178,11 @@ MonoBehaviour:
   stickType: 0
   startPoint: {x: 0, y: 0, z: 0}
   calculationTransformStartPoint: {fileID: 1004907627702638500}
+  isPickable: 0
   stickPartsList:
   - {fileID: 4343619135893902226}
+  spriteRenderers:
+  - {fileID: 7277410545566609365}
 --- !u!65 &4583295065688820737
 BoxCollider:
   m_ObjectHideFlags: 0

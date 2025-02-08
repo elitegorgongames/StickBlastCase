@@ -29,5 +29,6 @@ public class EventManager : MonoBehaviour
     public void OnRestartEvent()
     {
         RestartEvent?.Invoke();
+        InputController.Instance.gameIsOn = true;
     }
 }

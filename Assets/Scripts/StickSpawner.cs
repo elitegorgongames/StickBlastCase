@@ -50,7 +50,7 @@ public class StickSpawner : MonoBehaviour
             Stick stickToSpawn = null;
             bool fitFound = false;
 
-            // Uyan bir stick bulunana kadar döngüye gir
+      
             while (!fitFound)
             {
                 int stickOrder = Random.Range(0, stickPrefabsList.Count);
@@ -68,16 +68,17 @@ public class StickSpawner : MonoBehaviour
                     }
                 }
 
-                // Eðer uygun bir node bulunamadýysa, spawn edilen stick'i yok et ve yeniden dene
+                
                 if (!fitFound)
                 {
                     Destroy(stickToSpawn.gameObject);
                     currentStickList.Remove(stickToSpawn);
-                    yield return null; // Bir sonraki frame'de tekrar dene (alternatif olarak küçük bir gecikme de ekleyebilirsin)
+                    yield return null;
                 }
             }
 
-            // Uyan stick bulundu, hedef konuma taþýyoruz
+
+            SoundManager.Instance.PlaySpawnStickClip();
             stickToSpawn.MoveToTarget(stickSpawnPointsList[i].position);
             yield return new WaitForSeconds(delayTime);
         }
@@ -107,7 +108,7 @@ public class StickSpawner : MonoBehaviour
             }
             if (!fitFound)
             {
-                EventManager.Instance.OnFailEvent();
+                //EventManager.Instance.OnFailEvent();
             }
         }
 
@@ -116,6 +117,39 @@ public class StickSpawner : MonoBehaviour
         {
             StartCoroutine(SpawnSticksWithDelay());
         }
+    }
+    
+    public void FailCheck()
+    {
+        StartCoroutine(FailCheckWithDelay());
+    }
+
+    IEnumerator FailCheckWithDelay()
+    {
+        bool fitFound = false;
+        var circleNodesList = GridManager.Instance.GetAllCircleNodes();
+        if (currentStickList.Count>0)
+        {
+            foreach (var stick in currentStickList)
+            {
+                foreach (var cNode in circleNodesList)
+                {
+                    if (GridManager.Instance.IsStickFitIntoTheCircleNode(stick, cNode))
+                    {
+                        fitFound = true;
+                        break;
+                    }
+                }
+            }
+            if (!fitFound)
+            {
+                InputController.Instance.gameIsOn = false;
+                yield return new WaitForSeconds(.5f);
+                currentStickList.Clear();
+                EventManager.Instance.OnFailEvent();
+            }
+        }
+  
     }
 
     private void RestartEvent()

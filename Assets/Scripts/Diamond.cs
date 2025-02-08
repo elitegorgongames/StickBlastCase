@@ -30,7 +30,7 @@ public class Diamond : MonoBehaviour
         var scaleTime = PolishSettings.Instance.diamondScaleTime;
 
         var diamondTargetObject = PolishSettings.Instance.diamondTargetTransform;
-        var targetPosition = Camera.main.ScreenToWorldPoint(diamondTargetObject.position);
+        var targetPosition = diamondTargetObject.position;
         var distance = Vector3.Distance(targetPosition, _transform.position);
 
         var baseMoveSpeed = PolishSettings.Instance.diamondMoveSpeed;
@@ -44,6 +44,8 @@ public class Diamond : MonoBehaviour
             {
                 EventManager.Instance.OnDiamondMovementCompleted();
                 DestroyObject();
+
+                SoundManager.Instance.PlayDiamondReachedTargetAudioClip();
             });
         
     }

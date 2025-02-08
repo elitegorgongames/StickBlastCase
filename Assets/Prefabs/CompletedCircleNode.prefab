@@ -58,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: da3712ef9bd74f449b4f6f4becf98790, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -131,7 +131,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   belongedCircleNode: {fileID: 0}
-  diamondPrefab: {fileID: 8661171323513610513, guid: f521dc99e961aa34899e24645188630e, type: 3}
+  diamondPrefab: {fileID: 4371474571449910984, guid: e2b85aa8e432624479cf7ed827a0b90c, type: 3}
+  diagonalShineMaterial: {fileID: 0}
+  shineTimer: 0.82
 --- !u!65 &721939446934391749
 BoxCollider:
   m_ObjectHideFlags: 0

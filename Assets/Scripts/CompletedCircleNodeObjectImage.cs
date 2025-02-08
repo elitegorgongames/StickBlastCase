@@ -13,6 +13,10 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     public CircleNode belongedCircleNode;
 
     public Diamond diamondPrefab;
+    public Material diagonalShineMaterial;
+
+    private bool _closeShine;
+    public float shineTimer;
 
     BoxCollider _collider;
 
@@ -22,6 +26,10 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     {
         _collider = GetComponent<BoxCollider>();
         _transform = transform;
+
+        diagonalShineMaterial = Instantiate(spriteRenderer.material);
+        spriteRenderer.material = diagonalShineMaterial;
+        spriteRenderer.material.SetFloat("_StartTime", Time.time-.2f);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,12 +39,30 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
         ScaleUp();
 
         ConnectionStickManager.Instance.completedObjectsList.Add(this);
+        SoundManager.Instance.PlayShineAudioClip();
+
+
     }
 
     private void OnDestroy()
     {
         EventManager.Instance.RestartEvent -= DestroyObject;
         ConnectionStickManager.Instance.completedObjectsList.Remove(this);
+    }
+
+    private void Update()
+    {
+        if (_closeShine)
+        {
+            return;
+        }
+
+        shineTimer -= Time.deltaTime;
+        if (shineTimer <= 0)
+        {
+            _closeShine = true;
+            spriteRenderer.material.SetFloat("_WaveSpeed", 0);
+        }
     }
 
     private void ScaleUp()
@@ -60,8 +86,15 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
             materialToDissolve.SetFloat("_Fade", dissolveValue);    
         }).OnComplete(DestroyObject);
 
-        var diamond = Instantiate(diamondPrefab);
-        diamond.transform.position = _transform.position;
+        var diamond = Instantiate(diamondPrefab,PolishSettings.Instance.diamondTargetTransform);
+        diamond.transform.position = Camera.main.WorldToScreenPoint(_transform.position);
+
+        SoundManager.Instance.PlayDissolveAudioClip();
+    }
+
+    public void SetDiagonalShaderMaterial()
+    {
+
     }
 
     private void DestroyObject()

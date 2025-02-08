@@ -13,8 +13,11 @@ public class Stick : MonoBehaviour
     public Transform calculationTransformStartPoint;
     private Transform _transform;
 
+    public bool isPickable;
+    public bool firstPick;
 
     public List<StickPart> stickPartsList;
+    public List<SpriteRenderer> spriteRenderers;
     
 
     private void Awake()
@@ -27,12 +30,28 @@ public class Stick : MonoBehaviour
     void Start()
     {
         EventManager.Instance.RestartEvent += RestartEvent;
-        SetStartPoint();
+
+        foreach (var sRenderer in spriteRenderers)
+        {
+            sRenderer.sortingOrder = 4;
+        }
     }
 
     private void OnDestroy()
     {
         EventManager.Instance.RestartEvent -= RestartEvent;
+    }
+
+    public void FirstPickMovement(Vector3 target)
+    {
+        firstPick = true;
+
+        _transform.DOMove(target, PolishSettings.Instance.stickFirstHoldOffsetMovementTime).OnComplete(() =>
+        {
+            firstPick = false;
+        });
+
+        SoundManager.Instance.PlayPickStickAudioClip();
     }
 
     public void MoveToTarget(Vector3 target)
@@ -41,8 +60,7 @@ public class Stick : MonoBehaviour
         var moveSpeed = PolishSettings.Instance.moveToStartPointSpeed;
         var moveTime = distance/moveSpeed;
 
-        var pos = _transform.position;
-  
+        var pos = _transform.position; 
 
         if (stickType==StickType.Vertical)
         {
@@ -74,6 +92,9 @@ public class Stick : MonoBehaviour
             GridManager.Instance.CheckIfAnyCircleNodeIsCompleted();
             ConnectionStickManager.Instance.UpdateConnectionStickOccupiedStates();          
             StickSpawner.Instance.DecreaseCurrentStickCount(this);
+            StickSpawner.Instance.FailCheck();
+            ChangeOrderInLayer();
+            SoundManager.Instance.PlaySettleStickAudioClip();
         });
     }
 
@@ -87,15 +108,29 @@ public class Stick : MonoBehaviour
 
     public void BackToStartPoint()
     {
+        isPickable = false;
         var moveTime = PolishSettings.Instance.stickPlacementTime;
         var moveAC = PolishSettings.Instance.stickPlacementAC;
-        _transform.DOMove(startPoint, moveTime).SetEase(moveAC);
+        _transform.DOMove(startPoint, moveTime).SetEase(moveAC).OnComplete(()=>
+        {
+            isPickable = true;
+        });
+
+        SoundManager.Instance.PlayStickBackToInitialPointClip();
     }
 
+    private void ChangeOrderInLayer()
+    {
+        foreach (var sRenderer in spriteRenderers)
+        {
+            sRenderer.sortingOrder = 2;
+        }
+    }
 
     public void SetStartPoint()
     {
         startPoint = _transform.position;
+        isPickable = true;
     }
 
     public Transform GetCalculationTransformStartPoint()

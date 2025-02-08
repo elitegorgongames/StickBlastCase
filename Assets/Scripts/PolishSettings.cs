@@ -31,6 +31,8 @@ public class PolishSettings : MonoBehaviour
     public AnimationCurve diamondMoveAC;
     public Transform diamondTargetTransform;
 
+   
+
 
     private void Awake()
     {

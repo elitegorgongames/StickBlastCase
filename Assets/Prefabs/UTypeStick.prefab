@@ -337,10 +337,15 @@ MonoBehaviour:
   stickType: 3
   startPoint: {x: 0, y: 0, z: 0}
   calculationTransformStartPoint: {fileID: 684898250537377870}
+  isPickable: 0
   stickPartsList:
   - {fileID: 4265513758530083413}
   - {fileID: 4537198136088314984}
   - {fileID: 4878141722051438237}
+  spriteRenderers:
+  - {fileID: 4926546128325388624}
+  - {fileID: 23595465445567553}
+  - {fileID: 9016568346269904191}
 --- !u!65 &1981335788374718832
 BoxCollider:
   m_ObjectHideFlags: 0
