@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 1111806096880921834, guid: c526c26b8faf12445ad4208d29bb927e, type: 3}
-  m_Color: {r: 1, g: 0.81960785, b: 0.4, a: 1}
+  m_Color: {r: 0.24313726, g: 0.9254902, b: 0.95686275, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -179,6 +179,7 @@ MonoBehaviour:
   startPoint: {x: 0, y: 0, z: 0}
   calculationTransformStartPoint: {fileID: 1004907627702638500}
   isPickable: 0
+  firstPick: 0
   stickPartsList:
   - {fileID: 4343619135893902226}
   spriteRenderers:
