@@ -136,6 +136,7 @@ public class StickSpawner : MonoBehaviour
 
     IEnumerator FailCheckWithDelay()
     {
+        Debug.Log("fail check");
         bool fitFound = false;
         var circleNodesList = GridManager.Instance.GetAllCircleNodes();
         if (currentStickList.Count>0)
