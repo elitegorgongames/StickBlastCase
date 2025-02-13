@@ -1336,7 +1336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7517de93e48ec2f44ab108f736082c0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoint: 99
+  targetPoint: 49
   currentPoint: 0
   slider: {fileID: 421585107}
 --- !u!1 &467939615
@@ -1528,7 +1528,7 @@ MonoBehaviour:
   - {fileID: 1443941112503765346, guid: c9a379a95f535ab4f8a71862035b2c57, type: 3}
   - {fileID: 2854411371113797247, guid: f00a0524cd3e0ef428845f8c32412776, type: 3}
   - {fileID: 3090947221620548602, guid: bbef0e2688748b641881de448f3f96ca, type: 3}
-  delayTime: 0.2
+  delayTime: 0.08
   spawnStickCount: 3
   stickSpawnPointsList:
   - {fileID: 198321835}
@@ -5609,7 +5609,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stickFirstHoldOffsetMovementTime: 0.05
-  moveToStartPointSpeed: 10
+  moveToStartPointSpeed: 15
+  moveToStartPointTime: 0.1
   stickPlacementTime: 0.15
   stickPlacementAC:
     serializedVersion: 2

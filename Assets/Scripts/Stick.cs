@@ -58,7 +58,7 @@ public class Stick : MonoBehaviour
     {
         var distance = Vector3.Distance(_transform.position, target);
         var moveSpeed = PolishSettings.Instance.moveToStartPointSpeed;
-        var moveTime = distance/moveSpeed;
+        var moveTime = PolishSettings.Instance.moveToStartPointTime;
 
         var pos = _transform.position; 
 

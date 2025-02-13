@@ -10,6 +10,7 @@ public class PolishSettings : MonoBehaviour
 
     [Header("StickSpawnMovement")]
     public float moveToStartPointSpeed;
+    public float moveToStartPointTime;
 
     [Header("Stick Placement")]
     public float stickPlacementTime;
