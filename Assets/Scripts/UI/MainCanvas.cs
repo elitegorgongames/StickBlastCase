@@ -40,17 +40,17 @@ public class MainCanvas : MonoBehaviour
     {
         failPanelObject.SetActive(true);
 
-        MoveFailLetters();
+        //MoveFailLetters();
     }
 
     private void DisableFailPanel()
     {
         failPanelObject.SetActive(false);
 
-        foreach (var letter in failedLettersList)
-        {
-            letter.transform.position = failLettersInitialPoint.position;
-        }
+        //foreach (var letter in failedLettersList)
+        //{
+        //    letter.transform.position = failLettersInitialPoint.position;
+        //}
     }
 
     private void EnableSuccessPanel()
@@ -64,21 +64,21 @@ public class MainCanvas : MonoBehaviour
         successPanelObject.SetActive(false);
     }
 
-    public void MoveFailLetters() 
-    {
-        StartCoroutine(MoveFailLettersWithDelay());
-    }
+    //public void MoveFailLetters() 
+    //{
+    //    StartCoroutine(MoveFailLettersWithDelay());
+    //}
 
-    IEnumerator MoveFailLettersWithDelay()
-    {
-        for (int i = 0; i < failedLettersList.Count; i++)
-        {
-            GameObject letter = failedLettersList[i];
-            letter.transform.DOMove(failedLettersTargetPointList[i], moveLetterTime);
+    //IEnumerator MoveFailLettersWithDelay()
+    //{
+    //    for (int i = 0; i < failedLettersList.Count; i++)
+    //    {
+    //        GameObject letter = failedLettersList[i];
+    //        letter.transform.DOMove(failedLettersTargetPointList[i], moveLetterTime);
 
-            yield return new WaitForSeconds(moveDelayTime);
-        }
-    }
+    //        yield return new WaitForSeconds(moveDelayTime);
+    //    }
+    //}
 
     private void SetFailedLettersPoints()
     {

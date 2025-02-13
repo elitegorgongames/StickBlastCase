@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOccupied: 0
-  hightlightColor: {r: 1, g: 0.81960785, b: 0.4, a: 1}
+  hightlightColor: {r: 0.6517408, g: 0.79227227, b: 0.90188676, a: 1}
   initialColor: {r: 0, g: 0, b: 0, a: 1}
   spriteRenderer: {fileID: 2948068816791541498}
   highlightObject: {fileID: 3003069838223605546}
@@ -262,7 +262,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 6161274199392535175, guid: dc0854b6e1bf7804faa5f0b03b4de2bb, type: 3}
-  m_Color: {r: 1, g: 0.81960785, b: 0.4, a: 0.67058825}
+  m_Color: {r: 0.6509804, g: 0.7921569, b: 0.9019608, a: 0.67058825}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

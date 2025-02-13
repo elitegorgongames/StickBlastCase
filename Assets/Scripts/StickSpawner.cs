@@ -51,20 +51,7 @@ public class StickSpawner : MonoBehaviour
         }
     }
 
-    public void PostProcessing()
-    {
-        StartCoroutine(PostProcessingToggle());
-    }
-
-    IEnumerator PostProcessingToggle()
-    {
-        Camera.main.gameObject.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = true;
-
-        yield return new WaitForSeconds(.5f);
-        Camera.main.gameObject.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = false;
-
-        Debug.Log("post processing");
-    }
+ 
 
     IEnumerator SpawnSticksWithDelay()
     {
