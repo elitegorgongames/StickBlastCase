@@ -24,7 +24,8 @@ public class MainCanvas : MonoBehaviour
         EventManager.Instance.RestartEvent += DisableFailPanel;
         EventManager.Instance.RestartEvent += DisableSuccessPanel;
 
-        DisableFailPanel();
+        SetFailedLettersPoints();
+        DisableFailPanel();     
     }
 
     private void OnDestroy()
@@ -76,6 +77,14 @@ public class MainCanvas : MonoBehaviour
             letter.transform.DOMove(failedLettersTargetPointList[i], moveLetterTime);
 
             yield return new WaitForSeconds(moveDelayTime);
+        }
+    }
+
+    private void SetFailedLettersPoints()
+    {
+        for (int i = 0; i < failedLettersList.Count; i++)
+        {
+            failedLettersTargetPointList.Add(failedLettersList[i].transform.position);
         }
     }
 

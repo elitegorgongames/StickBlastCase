@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class StickSpawner : MonoBehaviour
 {
@@ -46,8 +47,23 @@ public class StickSpawner : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            postProcessVolume.enabled = !postProcessVolume.enabled;
+            Camera.main.gameObject.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = !Camera.main.gameObject.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing;
         }
+    }
+
+    public void PostProcessing()
+    {
+        StartCoroutine(PostProcessingToggle());
+    }
+
+    IEnumerator PostProcessingToggle()
+    {
+        Camera.main.gameObject.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = true;
+
+        yield return new WaitForSeconds(.5f);
+        Camera.main.gameObject.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = false;
+
+        Debug.Log("post processing");
     }
 
     IEnumerator SpawnSticksWithDelay()

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class SliderImage : MonoBehaviour
@@ -9,6 +10,7 @@ public class SliderImage : MonoBehaviour
     public float targetPoint;
     public float currentPoint;
     public Slider slider;
+    public TextMeshProUGUI currentPointText;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,6 +37,8 @@ public class SliderImage : MonoBehaviour
         {
             EventManager.Instance.OnSuccessEvent();
         }
+
+        SetCurrentPointText();
     }
 
     private void DiamondMovementCompleted()
@@ -47,5 +51,10 @@ public class SliderImage : MonoBehaviour
     {
         currentPoint =0;
         SetSliderValue();
+    }
+
+    private void SetCurrentPointText()
+    {
+        currentPointText.text = currentPoint.ToString();
     }
 }
