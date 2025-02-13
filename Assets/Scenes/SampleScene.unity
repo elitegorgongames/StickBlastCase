@@ -143,7 +143,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50364606}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -1537,6 +1537,7 @@ MonoBehaviour:
   initialStickSpawnPoint: {fileID: 1079903083}
   currentStickList: []
   currentStickCount: 0
+  postProcessVolume: {fileID: 50364607}
 --- !u!4 &605702132
 Transform:
   m_ObjectHideFlags: 0

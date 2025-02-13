@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class StickSpawner : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class StickSpawner : MonoBehaviour
     public List<Stick> currentStickList;
 
     public int currentStickCount;
+
+    public Volume postProcessVolume;
 
 
     private void Awake()
@@ -40,6 +43,10 @@ public class StickSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             StartCoroutine(SpawnSticksWithDelay());
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            postProcessVolume.enabled = !postProcessVolume.enabled;
         }
     }
 
