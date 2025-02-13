@@ -1318,7 +1318,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1396869452}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 99
+  m_MaxValue: 19
   m_WholeNumbers: 0
   m_Value: 0.693
   m_OnValueChanged:
@@ -1336,7 +1336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7517de93e48ec2f44ab108f736082c0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoint: 49
+  targetPoint: 19
   currentPoint: 0
   slider: {fileID: 421585107}
 --- !u!1 &467939615
@@ -5637,7 +5637,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   stickSettleScaleMultiplier: 1.029
-  stickSettleScaleTime: 0.08
+  stickSettleScaleTime: 0.1
   stickSettleScaleAC:
     serializedVersion: 2
     m_Curve:

@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 6103761045398077221}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.33896127, y: 0.35051432, z: 0.33896127}
+  m_LocalPosition: {x: 0.0358, y: 0.0287, z: 0}
+  m_LocalScale: {x: 0.33875376, y: 0.30582616, z: 0.4599}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 110008087817714759}
   dissolveMaterial: {fileID: 2100000, guid: fdc43aac418df7544b4c7941009ca16a, type: 2}
-  initialTargetScale: {x: 2.43, y: 2.19, z: 2.19}
+  initialTargetScale: {x: 1.6, y: 1.58, z: 2.19}
   scaleTime: 0.1
   scaleAC:
     serializedVersion: 2
@@ -153,8 +153,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.117471, y: 2.3436334, z: 0.7059681}
-  m_Center: {x: -0.20851743, y: -0.4453216, z: -0.027508328}
+  m_Size: {x: 2.4944193, y: 2.6260815, z: 0.7059681}
+  m_Center: {x: -0.02004383, y: -0.021647226, z: -0.02750834}
 --- !u!54 &127050028095510260
 Rigidbody:
   m_ObjectHideFlags: 0

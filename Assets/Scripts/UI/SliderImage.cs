@@ -17,6 +17,7 @@ public class SliderImage : MonoBehaviour
         EventManager.Instance.DiamondMovementCompleted += DiamondMovementCompleted;
         EventManager.Instance.RestartEvent += RestartEvent;
         SetSliderValue();
+        slider.maxValue = targetPoint;
     }
 
     private void OnDestroy()

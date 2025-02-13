@@ -74,6 +74,7 @@ public class CompletedCircleNodeObjectImage : MonoBehaviour
     {
         //Debug.Log("dissolve stick part");
         _collider.size *= .1f;
+        //_collider.enabled = false;
         var materialToDissolve = Instantiate(dissolveMaterial);
         spriteRenderer.material = materialToDissolve;
         float dissolveValue = 1;
