@@ -127,6 +127,11 @@ public class Stick : MonoBehaviour
         {
             var currentOrder = sRenderer.sortingOrder;
             sRenderer.sortingOrder = currentOrder - 3;
+
+            if (stickType == StickType.MirroredLType)
+            {
+                sRenderer.sortingOrder = currentOrder - 5;
+            }
         }
     }
 

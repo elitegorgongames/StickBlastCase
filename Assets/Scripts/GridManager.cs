@@ -687,7 +687,7 @@ public class GridManager : MonoBehaviour
         {   
             var lastCNode = GetCircleNodeByOrder(lastOrderRow);
             lastCNode.CompleteToRight();
-            PostProcessingSettings.Instance.PostProcessing();
+            //PostProcessingSettings.Instance.PostProcessing();
         }
      
 
@@ -710,7 +710,7 @@ public class GridManager : MonoBehaviour
         {
             var lastCNode = GetCircleNodeByOrder(lastOrderColumn);
             lastCNode.CompleteToUp();
-            PostProcessingSettings.Instance.PostProcessing();
+            //PostProcessingSettings.Instance.PostProcessing();
         }
     }
   

@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 8607414894980389933, guid: 2c3211d95f56ef045a657b1b87cb04b1, type: 3}
   m_Color: {r: 0.24313726, g: 0.9254902, b: 0.95686275, a: 1}
   m_FlipX: 0
@@ -285,7 +285,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -538896171036416977, guid: 2755a636d31d8b7428cadfc0b091b213, type: 3}
   m_Color: {r: 0.24313726, g: 0.9254902, b: 0.95686275, a: 1}
   m_FlipX: 0
@@ -332,8 +332,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: -3.213547, y: 1.1010232, z: 0.2}
-  m_Center: {x: 0.1086358, y: 0.57740426, z: 0}
+  m_Size: {x: -3.213547, y: 1.7809118, z: 0.2}
+  m_Center: {x: 0.10863578, y: -0.33872122, z: 0}
 --- !u!1 &6426546829938154369
 GameObject:
   m_ObjectHideFlags: 0
