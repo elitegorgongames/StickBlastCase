@@ -33,7 +33,9 @@ public class Stick : MonoBehaviour
 
         foreach (var sRenderer in spriteRenderers)
         {
-            sRenderer.sortingOrder = 4;
+            var currentOrder = sRenderer.sortingOrder;
+            sRenderer.sortingOrder = currentOrder + 2;
+            //sRenderer.sortingOrder = 4;
         }
     }
 
@@ -123,7 +125,8 @@ public class Stick : MonoBehaviour
     {
         foreach (var sRenderer in spriteRenderers)
         {
-            sRenderer.sortingOrder = 2;
+            var currentOrder = sRenderer.sortingOrder;
+            sRenderer.sortingOrder = currentOrder - 3;
         }
     }
 
